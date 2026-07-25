@@ -80,11 +80,12 @@ body::after{
   color:var(--blue-500);
 }
 .section{padding:90px var(--pad-x)}
+p,.why-card-copy{text-wrap:pretty}
 #thesis,.tagline,.rules,.gcc,.products,.why,.cases,.insights,.careers.cr2{border-top:1px solid var(--border)}
 .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:56px}
 .section-title{
   font-family:var(--font-display);
-  font-weight:800;
+  font-weight:600;
   font-size:var(--fs-h2);
   line-height:1.05;
   letter-spacing:-.02em;
@@ -161,7 +162,7 @@ body::after{
 .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:end}
 .hero-h1{
   font-family:var(--font-display);
-  font-weight:900;
+  font-weight:700;
   font-size:clamp(42px,6.2vw,94px);
   line-height:.98;
   letter-spacing:-.03em;
@@ -356,7 +357,7 @@ body::after{
 .cr2-media::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(6,8,16,.30),transparent 55%)}
 .cr2-content{position:absolute;top:50%;transform:translateY(-50%);right:var(--pad-x);width:38%;opacity:0;will-change:opacity,transform}
 .cr2-content .eyebrow{margin-bottom:16px}
-.cr2-content h2{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin-bottom:22px;color:var(--text-hi)}
+.cr2-content h2{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:600;line-height:1.06;letter-spacing:-.02em;margin-bottom:22px;color:var(--text-hi)}
 .cr2-content h2 em{font-style:normal;color:var(--blue-500)}
 .cr2-content p{color:var(--text-mid);font-size:15.5px;line-height:1.62;margin-bottom:30px;max-width:42ch}
 .cr2-btn{display:inline-flex;align-items:center;gap:10px;background:var(--blue-500);color:#04121C;font-weight:700;font-size:15px;text-decoration:none;padding:14px 26px;transition:background .2s,box-shadow .2s,transform .2s}
@@ -431,10 +432,10 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .who-intro .section-title{margin-top:10px}
 .who-lead{color:var(--text-mid);font-size:clamp(16px,1.35vw,19px);line-height:1.75;margin-top:18px}
 .stats-note{
-  font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
-  font-size:var(--fs-h3);line-height:1.45;
-  color:var(--text-hi);text-align:center;
-  max-width:60ch;margin:0 auto 64px;
+  font-family:var(--font-body);font-weight:400;
+  font-size:16px;line-height:1.75;
+  color:var(--text-mid);text-align:center;text-wrap:balance;
+  max-width:64ch;margin:0 auto 64px;
 }
 
 /* ============ OPERATIONALIZE AI (content left, visual right) ============ */
@@ -465,7 +466,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 #tagDots{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .tagline blockquote{position:relative;z-index:1}
 .tagline blockquote{
-  font-family:var(--font-display);font-weight:800;
+  font-family:var(--font-display);font-weight:700;
   font-size:clamp(26px,3.4vw,44px);line-height:1.2;letter-spacing:-.02em;
   max-width:24ch;margin:0 auto;
   color:var(--text-display);
