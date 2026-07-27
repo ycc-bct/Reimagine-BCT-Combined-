@@ -1137,8 +1137,8 @@ addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 24),
 
 /* ---------- scroll reveal ---------- */
 const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-}), {threshold:.15});
+  e.target.classList.toggle('in', e.isIntersecting);
+}), {threshold:.15, rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
 /* ---------- hero video: seamless forward loop (pre-empt end-of-stream stall) ---------- */
