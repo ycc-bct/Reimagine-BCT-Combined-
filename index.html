@@ -6,7 +6,7 @@
 <title>Bahwan CyberTek, Reimagining Digital Experiences</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
 <style>
 /* ============ TOKENS ============ */
@@ -39,8 +39,8 @@
   --light-low:    rgba(10,22,32,.42);
   --light-border: rgba(10,22,32,.12);
 
-  --font-display: 'General Sans', 'Archivo', sans-serif;
-  --font-body:    'General Sans', 'Poppins', sans-serif;
+  --font-display: 'Poppins', 'Archivo', sans-serif;
+  --font-body:    'Poppins', 'General Sans', sans-serif;
 
   /* type scale */
   --fs-h2: clamp(32px,4vw,52px);   /* section titles */
@@ -73,10 +73,10 @@ body::after{
 /* ============ SHARED ============ */
 .eyebrow{
   font-family:var(--font-display);
-  font-size:10.5px;
+  font-size:12pt;
   font-weight:600;
-  letter-spacing:.16em;
-  text-transform:uppercase;
+  letter-spacing:.1em;
+  text-transform:none;
   color:var(--blue-500);
 }
 .section{padding:90px var(--pad-x)}
@@ -162,10 +162,10 @@ p,.why-card-copy{text-wrap:pretty}
 .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:end}
 .hero-h1{
   font-family:var(--font-display);
-  font-weight:700;
-  font-size:clamp(42px,6.2vw,94px);
-  line-height:.98;
-  letter-spacing:-.03em;
+  font-weight:500;
+  font-size:clamp(30px,4vw,58px);
+  line-height:1.1;
+  letter-spacing:-.02em;
   text-transform:none;
   color:var(--text-display);
 }
@@ -419,7 +419,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 }
 .stats-grid{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:clamp(48px,9vw,140px);align-items:baseline}
 .stat-num{
-  font-family:var(--font-display);font-weight:900;
+  font-family:var(--font-display);font-weight:600;
   font-size:clamp(42px,6.2vw,94px);letter-spacing:-.03em;line-height:1;
   color:var(--text-display);
 }
@@ -554,12 +554,24 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .gcc-body p{color:var(--text-mid);font-size:15.5px;line-height:1.75;max-width:68ch}
 .gcc-body b{color:var(--text-hi);font-weight:600}
 .gcc-hl{color:var(--blue-500);font-weight:600}
+
+/* three-line-divided layout: 1 top rule + 2 vertical rules between the 3 columns */
 .gcc-cards{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-  background:var(--border);border:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--border);
   margin-top:clamp(36px,5vw,52px);
 }
-.gcc-card{background:var(--bg-surface);padding:28px 26px}
+.gcc-card{
+  padding:28px clamp(22px,2.6vw,32px) 6px;
+  border-left:1px solid var(--border);
+  opacity:0;transform:translateY(36px);
+  transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1);
+}
+.gcc-card:first-child{border-left:none}
+.gcc-cards.rv{opacity:1;transform:none;transition:none}
+.gcc-cards.in .gcc-card{opacity:1;transform:none}
+.gcc-cards.in .gcc-card:nth-child(2){transition-delay:.1s}
+.gcc-cards.in .gcc-card:nth-child(3){transition-delay:.2s}
 .gcc-icon{
   width:36px;height:36px;border:1px solid var(--border-blue);
   display:grid;place-items:center;margin-bottom:18px;
@@ -567,16 +579,21 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .gcc-icon svg{width:17px;height:17px;stroke:var(--blue-500);fill:none;stroke-width:1.4}
 .gcc-card h3{font-family:var(--font-display);font-weight:700;font-size:16.5px;color:var(--text-hi);margin-bottom:10px}
 .gcc-card p{font-size:13.5px;color:var(--text-mid);line-height:1.65}
-.gcc-strip{
-  border:1px solid var(--border);border-top:none;
-  padding:22px clamp(24px,3vw,30px);
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
-  background:rgba(0,146,215,.04);
+.gcc-cta{display:flex;justify-content:center;margin-top:clamp(28px,4vw,44px)}
+.gcc-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--blue-500);color:#04121C;font-weight:700;font-size:16px;
+  padding:17px 34px;text-decoration:none;
+  transition:background .2s,box-shadow .2s,transform .2s;
 }
-.gcc-strip-stat{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.gcc-strip-num{font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--blue-500)}
-.gcc-strip-label{font-size:13px;color:var(--text-mid)}
-.gcc-strip .btn-solid{flex:none}
+.gcc-btn .arrow{transition:transform .25s ease}
+.gcc-btn:hover{background:var(--blue-300);box-shadow:0 0 44px var(--glow);transform:translateY(-2px)}
+.gcc-btn:hover .arrow{transform:translateX(4px)}
+@media(max-width:1080px){
+  .gcc-cards{grid-template-columns:1fr}
+  .gcc-card{border-left:none;border-top:1px solid var(--border);padding-top:26px}
+  .gcc-card:first-child{border-top:none}
+}
 
 /* ============ WHY BCT (bordered grid) ============ */
 .why{background:var(--bg-surface)}
@@ -628,7 +645,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   background:linear-gradient(to top,rgba(6,8,16,.88) 0%,rgba(6,8,16,.15) 58%,transparent 100%);
 }
 .why-card h3{
-  font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-hi);
+  font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.3;color:var(--text-hi);
   text-shadow:0 2px 16px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.6);
   transition:transform .45s cubic-bezier(.22,1,.36,1);
 }
@@ -664,7 +681,6 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   .ai-layout{grid-template-columns:1fr;gap:48px}
   .ai-visual{max-width:420px}
   .pcards{grid-template-columns:1fr;max-width:460px}
-  .gcc-cards{grid-template-columns:1fr}
   .whyx-list{grid-template-columns:1fr}
   .ins-grid{grid-template-columns:1fr 1fr}
 }
@@ -690,6 +706,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .rv{opacity:1;transform:none}
   .careers-inner.rv>*{opacity:1;transform:none}
+  .gcc-card{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -731,39 +748,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   </div>
 </header>
 
-<!-- ================= WHO WE ARE ================= -->
-<section class="who-intro">
-  <div class="who-intro-inner rv">
-    <div class="eyebrow">Who we are</div>
-    <h2 class="section-title">A global enterprise transformation partner</h2>
-  </div>
-</section>
-
-<!-- ================= STAT BAND ================= -->
-<section class="stats">
-  <h3 class="stats-note rv">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</h3>
-  <div class="stats-grid rv">
-    <div>
-      <div class="stat-num" data-count="27">27</div>
-      <div class="stat-label">Years</div>
-    </div>
-    <div>
-      <div class="stat-num" data-count="50" data-suffix="+">50+</div>
-      <div class="stat-label">Countries</div>
-    </div>
-    <div>
-      <div class="stat-num" data-count="2200" data-suffix="+">2,200+</div>
-      <div class="stat-label">Enterprise clients</div>
-    </div>
-  </div>
-</section>
-
 <!-- ================= OPERATIONALIZE AI ================= -->
 <section class="section" id="thesis">
   <div class="ai-layout">
     <div class="ai-content rv">
       <div class="eyebrow">Our point of view</div>
-      <h2 class="section-title ai-slogan">The future belongs to enterprises that <span class="hl">operationalize AI.</span></h2>
+      <h2 class="section-title ai-slogan">The future belongs to enterprises that<br><span class="hl">operationalize AI</span></h2>
       <div class="ai-points">
         <div class="ai-point">
           <h3>Accountability beyond adoption</h3>
@@ -915,7 +905,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
     </div>
   </div>
   <div class="gcc-body rv">
-    <p>BCT embeds AI into your Global Capability Center (GCC) from day one. Powered by <b>AigeniX™</b>, our agentic AI platform automates the domains below, accelerating operations, agility, and time-to-market.</p>
+    <p>BCT embeds AI into your Global Capability Center (GCC) from day one. Powered by <b>AigeniX™</b>, our agentic AI platform automates the domains below, driving a <span class="gcc-hl">20–25% reduction in manual effort</span> and accelerating operations, agility, and time-to-market.</p>
   </div>
   <div class="gcc-cards rv">
     <div class="gcc-card">
@@ -934,9 +924,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       <p>Institutional knowledge captured, structured, and instantly retrievable.</p>
     </div>
   </div>
-  <div class="gcc-strip rv">
-    <div class="gcc-strip-stat"><span class="gcc-strip-num">20–25%</span><span class="gcc-strip-label">reduction in manual effort</span></div>
-    <a class="link-arrow" href="#">Take a free GCC assessment <span class="ar">→</span></a>
+  <div class="gcc-cta rv">
+    <a class="gcc-btn" href="#">Take a free GCC assessment <span class="arrow">→</span></a>
   </div>
 </section>
 
@@ -957,11 +946,38 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   </div>
 </section>
 
+<!-- ================= WHO WE ARE ================= -->
+<section class="who-intro">
+  <div class="who-intro-inner rv">
+    <div class="eyebrow">Who we are</div>
+    <h2 class="section-title">A global enterprise transformation partner</h2>
+  </div>
+</section>
+
+<!-- ================= STAT BAND ================= -->
+<section class="stats">
+  <h3 class="stats-note rv">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</h3>
+  <div class="stats-grid rv">
+    <div>
+      <div class="stat-num" data-count="27">27</div>
+      <div class="stat-label">Years</div>
+    </div>
+    <div>
+      <div class="stat-num" data-count="50" data-suffix="+">50+</div>
+      <div class="stat-label">Countries</div>
+    </div>
+    <div>
+      <div class="stat-num" data-count="2200" data-suffix="+">2,200+</div>
+      <div class="stat-label">Enterprise clients</div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= WHY BCT (image-card carousel) ================= -->
 <section class="why section" id="why">
   <div class="why-head rv">
     <div class="eyebrow">Why BCT</div>
-    <h2 class="section-title">Why the World's Most Demanding Enterprises Choose BCT</h2>
+    <h2 class="section-title">Why the world's most demanding enterprises choose BCT</h2>
     <p class="why-intro">Governments, Fortune 500s, and mission-critical industries have trusted BCT inside their most vital systems for 27 years.</p>
   </div>
   <div class="why-grid rv">
@@ -1008,7 +1024,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   <div class="cases-grid">
     <div class="cases-head rv">
       <div class="eyebrow">Our work</div>
-      <h2 class="section-title">Proof, not promises</h2>
+      <h2 class="section-title">Case Study</h2>
       <p class="cases-intro">See how BCT solves complex challenges and delivers business impact through disciplined execution and scalable solutions.</p>
       <a class="link-arrow" href="#">View all <span class="ar">→</span></a>
     </div>
@@ -1209,10 +1225,10 @@ const statIO = new IntersectionObserver(es => es.forEach(e => {
   statIO.unobserve(e.target);
   const el = e.target, target = +el.dataset.count, suf = el.dataset.suffix || '';
   if (matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent = fmt(target) + suf; return; }
-  const t0 = performance.now(), dur = 1400;
+  const t0 = performance.now(), dur = 2200, start = target * 0.65;
   (function tick(t){
     const p = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = fmt(Math.round(target * ease)) + suf;
+    el.textContent = fmt(Math.round(start + (target - start) * ease)) + suf;
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 }), {threshold:.5});
