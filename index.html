@@ -498,18 +498,18 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 
 /* ============ CAPABILITY CARDS (What we do) — staggered portrait grid ============ */
 .rules{background:var(--bg-surface)}
-#pillars{padding-top:44px}
-#pillars .section-head{margin-bottom:clamp(48px,7vw,84px)}
+#pillars{padding-top:32px}
+#pillars .section-head{margin-bottom:clamp(24px,3vw,36px)}
 .pcf{position:relative}
 .pcf-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px);
-  max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,22px);
+  max-width:960px;margin:0 auto;
 }
 .pcf-card{
   --drop:0px;
   position:relative;grid-row:1;margin-top:var(--drop);
-  aspect-ratio:3/4;overflow:hidden;border:1px solid var(--border);
-  opacity:0;transform:translateY(30px);
+  aspect-ratio:16/10;overflow:hidden;border:1px solid var(--border);
+  opacity:0;transform:translateY(24px);
   transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1);
 }
 .pcf-grid.in .pcf-card{opacity:1;transform:none}
@@ -517,32 +517,32 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .pcf-grid.in .pcf-card[data-i="1"]{transition-delay:.1s}
 .pcf-grid.in .pcf-card[data-i="2"]{transition-delay:.2s}
 .pcf-card::before{
-  content:'';position:absolute;top:calc(-1 * var(--drop));left:22px;
+  content:'';position:absolute;top:calc(-1 * var(--drop));left:18px;
   width:1px;height:var(--drop);background:var(--border);
 }
 .pcf-card[data-i="0"]{grid-column:1;--drop:0px}
-.pcf-card[data-i="1"]{grid-column:3;--drop:clamp(80px,8vw,150px)}
-.pcf-card[data-i="2"]{grid-column:2;--drop:clamp(160px,16vw,290px)}
+.pcf-card[data-i="1"]{grid-column:3;--drop:clamp(18px,2.2vw,34px)}
+.pcf-card[data-i="2"]{grid-column:2;--drop:clamp(32px,4vw,60px)}
 .pcf-card-art{
   position:absolute;inset:0;background-size:cover;background-position:center;
 }
 .pcf-card-body{
   position:absolute;inset:0;z-index:2;
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(20px,2.4vw,30px);
+  padding:clamp(14px,1.8vw,20px);
   background:linear-gradient(to top, rgba(6,8,16,.94) 0%, rgba(6,8,16,.5) 44%, transparent 100%);
 }
 .pcf-card-body h3{
-  font-family:var(--font-display);font-weight:700;font-size:clamp(19px,1.9vw,25px);
-  letter-spacing:-.01em;line-height:1.22;color:var(--text-display);
+  font-family:var(--font-display);font-weight:700;font-size:clamp(15px,1.3vw,18px);
+  letter-spacing:-.01em;line-height:1.2;color:var(--text-display);
 }
-.pcf-card-body p{color:var(--text-mid);font-size:13.5px;line-height:1.6;max-width:32ch;margin-top:10px}
+.pcf-card-body p{color:var(--text-mid);font-size:11.5px;line-height:1.5;max-width:32ch;margin-top:5px}
 @media(prefers-reduced-motion:reduce){
   .pcf-card{opacity:1!important;transform:none!important;transition:none!important}
 }
 @media(max-width:900px){
   .pcf-grid{grid-template-columns:1fr;gap:16px}
-  .pcf-card{grid-column:1!important;--drop:0px!important;margin-top:0;aspect-ratio:4/3}
+  .pcf-card{grid-column:1!important;--drop:0px!important;margin-top:0;aspect-ratio:16/9}
   .pcf-card::before{display:none}
 }
 
@@ -597,6 +597,9 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 }
 
 /* ============ GCC CAPABILITY (three-pillar capability cards) ============ */
+#gcc{padding-top:40px}
+#gcc .section-head{margin-bottom:28px}
+#gcc .gcc-btn{flex:none}
 .gcc-body p{color:var(--text-mid);font-size:15.5px;line-height:1.75;max-width:68ch}
 .gcc-body b{color:var(--text-hi);font-weight:600}
 .gcc-hl{
@@ -609,11 +612,11 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 /* card grid: bordered boxes, staggered slide-up entrance */
 .gcc-cards{
   display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
-  margin-top:clamp(36px,5vw,52px);
+  margin-top:clamp(24px,3vw,32px);
 }
 .gcc-card{
   background:var(--bg-base);border:1px solid var(--border);
-  padding:48px 28px 40px;
+  padding:24px 22px 20px;
   opacity:0;transform:translateY(52px);
   transition:opacity .65s cubic-bezier(.2,.6,.2,1),transform .65s cubic-bezier(.2,.6,.2,1),border-color .3s ease,box-shadow .3s ease;
 }
@@ -623,14 +626,10 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .gcc-cards.in .gcc-card:nth-child(1){transition-delay:0s}
 .gcc-cards.in .gcc-card:nth-child(2){transition-delay:.16s}
 .gcc-cards.in .gcc-card:nth-child(3){transition-delay:.32s}
-.gcc-num{
-  display:block;font-family:var(--font-display);font-weight:700;font-size:15px;
-  color:var(--blue-500);letter-spacing:.04em;margin-bottom:14px;
-}
-.gcc-card h3{font-family:var(--font-display);font-weight:700;font-size:clamp(20px,1.9vw,25px);line-height:1.28;color:var(--text-hi);margin-bottom:14px}
-.gcc-card p{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:24px}
+.gcc-card h3{font-family:var(--font-display);font-weight:700;font-size:clamp(18px,1.6vw,21px);line-height:1.26;color:var(--text-hi);margin-bottom:10px}
+.gcc-card p{font-size:12.5px;color:var(--text-mid);line-height:1.55;margin-bottom:14px}
 .gcc-icon{
-  width:68%;aspect-ratio:1/1;margin:0 auto;
+  width:34%;aspect-ratio:1/1;margin:0 auto;
   display:flex;align-items:flex-end;justify-content:center;
   transition:transform .5s cubic-bezier(.22,1,.36,1);
 }
@@ -648,11 +647,10 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 @media (prefers-reduced-motion:reduce){
   .gcc-icon,.gcc-card:hover .gcc-icon svg [stroke="#1294D7"]{animation:none;transition:none}
 }
-.gcc-cta{display:flex;justify-content:center;margin-top:clamp(28px,4vw,44px)}
 .gcc-btn{
-  display:inline-flex;align-items:center;gap:12px;
-  background:var(--blue-500);color:#04121C;font-weight:700;font-size:16px;
-  padding:17px 34px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--blue-500);color:#04121C;font-weight:700;font-size:14.5px;
+  padding:13px 24px;text-decoration:none;white-space:nowrap;
   transition:background .2s,box-shadow .2s,transform .2s;
 }
 .gcc-btn .arrow{transition:transform .25s ease}
@@ -873,13 +871,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       <div class="eyebrow">GCC Capability</div>
       <h2 class="section-title">BCT's AI-powered GCC capability</h2>
     </div>
+    <a class="gcc-btn" href="#">Take a free GCC assessment <span class="arrow">→</span></a>
   </div>
   <div class="gcc-body rv">
     <p>BCT embeds AI into your Global Capability Center (GCC) from day one. Powered by <b>AigeniX™</b>, our agentic AI platform automates the domains below, driving a <span class="gcc-hl">20–25% reduction in manual effort</span> and accelerating operations, agility, and time-to-market.</p>
   </div>
   <div class="gcc-cards rv">
     <div class="gcc-card">
-      <span class="gcc-num">01</span>
       <h3>Human Resource<br>Operations</h3>
       <p>Onboarding, queries, and workforce requests handled end-to-end by agentic AI, cutting manual effort and turnaround time for every employee interaction.</p>
       <div class="gcc-icon">
@@ -902,7 +900,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       </div>
     </div>
     <div class="gcc-card">
-      <span class="gcc-num">02</span>
       <h3>Finance<br>Operations</h3>
       <p>Invoicing, reconciliation, and reporting streamlined with continuous accuracy, giving finance teams real-time visibility into cash flow and compliance.</p>
       <div class="gcc-icon">
@@ -930,7 +927,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       </div>
     </div>
     <div class="gcc-card">
-      <span class="gcc-num">03</span>
       <h3>Knowledge<br>Operations</h3>
       <p>Institutional knowledge captured, structured, and instantly retrievable across every team, so critical expertise never walks out the door when people do.</p>
       <div class="gcc-icon">
@@ -961,9 +957,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
         </svg>
       </div>
     </div>
-  </div>
-  <div class="gcc-cta rv">
-    <a class="gcc-btn" href="#">Take a free GCC assessment <span class="arrow">→</span></a>
   </div>
 </section>
 
