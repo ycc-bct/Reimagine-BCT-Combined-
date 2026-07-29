@@ -167,12 +167,21 @@ p,.why-card-copy{text-wrap:pretty}
   font-family:var(--font-display);
   font-weight:500;
   font-size:clamp(30px,4vw,58px);
-  line-height:1.1;
+  line-height:1.3;
   letter-spacing:-.02em;
   text-transform:none;
   color:var(--text-display);
 }
-.hero-h1 .hm{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.hero-h1 .hm{display:block;overflow:hidden}
+/* no bottom allowance needed: at line-height 1.3 the line box (1.3em) is taller
+   than the g/p descender reaches (~1.27em from the line-box top), so the mask
+   clears the ink on its own. The padding/negative-margin pair went together —
+   keeping the margin without the padding would have pulled the lines 5.76px
+   into each other. */
+/* the mask only exists to hide the line while it sits below, waiting to slide
+   up. Once it has arrived, keep clipping and it eats the descenders of g/p
+   and squares off the .shiny glow into a visible band. */
+.hero-h1 .hm.done{overflow:visible}
 .hero-h1 .l1,.hero-h1 .l2{display:block}
 .hero-h1 .l2{margin-left:0}
 /* shiny sweep text (motionsites ShinyText, CSS-only) */
@@ -1326,6 +1335,17 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
       c.classList.toggle('dim', cat!=='all' && c.dataset.cat!==cat);
     });
   });
+})();</script>
+<script>(function(){
+  var lines=document.querySelectorAll('.hero-h1 .l1,.hero-h1 .l2');
+  if(!lines.length) return;
+  function unclip(l){ if(l.parentNode) l.parentNode.classList.add('done'); }
+  [].forEach.call(lines,function(l){
+    l.addEventListener('animationend',function(){ unclip(l); });
+  });
+  // the listener can miss the event on a slow load, and it never fires at all
+  // if the animation is suppressed — either way the clip must still lift
+  setTimeout(function(){ [].forEach.call(lines, unclip); }, 1600);
 })();</script>
 </body>
 </html>
