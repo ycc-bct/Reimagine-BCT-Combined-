@@ -420,7 +420,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .stats-grid{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:clamp(48px,9vw,140px);align-items:baseline}
 .stat-num{
   font-family:var(--font-display);font-weight:600;
-  font-size:clamp(42px,6.2vw,94px);letter-spacing:-.03em;line-height:1;
+  font-size:clamp(28px,3.6vw,52px);letter-spacing:-.02em;line-height:1;
   color:var(--text-display);
 }
 .stat-label{
@@ -438,62 +438,112 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   max-width:64ch;margin:0 auto 64px;
 }
 
-/* ============ OPERATIONALIZE AI (content left, visual right) ============ */
-.ai-layout{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(40px,6vw,92px);align-items:center}
+/* ============ OPERATIONALIZE AI (full-bleed image + scroll-revealed points) ============ */
+.pov-section{padding:0 0 clamp(64px,8vw,100px)}
+.pov-hero{
+  position:relative;min-height:min(72vh,640px);
+  background-size:cover;background-position:52% 45%;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.pov-veil{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(6,8,16,.5) 0%, rgba(6,8,16,.22) 38%, rgba(6,8,16,.85) 100%);
+}
+.pov-head{position:relative;z-index:2;text-align:center;max-width:840px;padding:0 var(--pad-x);
+  opacity:0;transition:opacity 1.1s ease;
+}
+.pov-head.in{opacity:1}
+.pov-head .eyebrow{color:var(--blue-300,#8FE9FF)}
 .ai-slogan{
   font-size:var(--fs-h2);
   line-height:1.14;letter-spacing:-.03em;
-  margin-bottom:clamp(32px,5vh,54px);
+  margin-top:14px;
 }
 .ai-slogan .hl{color:var(--blue-500)}
-.ai-points{display:grid;gap:24px;max-width:520px}
-.ai-point{border-top:1px solid var(--border);padding-top:22px}
-.ai-point h3{
+.pov-points{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,88px);
+  max-width:980px;margin:clamp(48px,7vw,76px) auto 0;padding:0 var(--pad-x);
+}
+.pov-point{position:relative;padding-top:36px}
+.pov-dot{
+  position:absolute;top:0;left:0;width:8px;height:8px;border-radius:50%;
+  background:var(--blue-500);box-shadow:0 0 0 5px rgba(0,146,215,.15);
+  opacity:0;transition:opacity .5s ease;
+}
+.pov-point.in .pov-dot{opacity:1}
+.pov-line{
+  position:absolute;top:4px;left:3px;width:1px;height:0;background:var(--border-blue,rgba(0,146,215,.45));
+  transition:height .55s cubic-bezier(.16,1,.3,1) .18s;
+}
+.pov-point.in .pov-line{height:24px}
+.pov-point h3{
   font-family:var(--font-display);font-weight:700;font-size:var(--fs-h3);
   letter-spacing:-.01em;margin-bottom:10px;color:var(--text-display);
+  opacity:0;transition:opacity .6s ease .4s;
 }
-.ai-point p{color:var(--text-mid);font-size:14.5px;line-height:1.7}
-.ai-visual{position:relative}
-.ai-visual svg{width:100%;height:auto;display:block;overflow:visible}
-.ai-visual .airings ellipse{fill:none;stroke:rgba(255,255,255,.10)}
+.pov-point p{color:var(--text-mid);font-size:14.5px;line-height:1.7;
+  opacity:0;transition:opacity .6s ease .52s;
+}
+.pov-point.in h3,.pov-point.in p{opacity:1}
+.pov-point[data-i="1"] .pov-dot{transition-delay:.15s}
+.pov-point[data-i="1"] .pov-line{transition-delay:.33s}
+.pov-point[data-i="1"] h3{transition-delay:.55s}
+.pov-point[data-i="1"] p{transition-delay:.67s}
+@media(prefers-reduced-motion:reduce){
+  .pov-head,.pov-dot,.pov-line,.pov-point h3,.pov-point p{transition:none!important;opacity:1!important;height:24px!important}
+}
+@media(max-width:760px){
+  .pov-points{grid-template-columns:1fr;gap:32px}
+}
 
-/* ============ CAPABILITY CARDS (What we do) — pinned "focus reel" ============ */
+/* ============ CAPABILITY CARDS (What we do) — staggered portrait grid ============ */
 .rules{background:var(--bg-surface)}
 #pillars{padding-top:44px}
-#pillars .section-head{margin-bottom:20px}
-.pcf{position:relative;height:300vh}
-.pcf-stage{
-  position:sticky;top:0;height:100vh;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+#pillars .section-head{margin-bottom:clamp(48px,7vw,84px)}
+.pcf{position:relative}
+.pcf-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px);
+  max-width:1180px;margin:0 auto;
 }
 .pcf-card{
-  position:absolute;top:50%;left:50%;width:min(62vw,760px);aspect-ratio:16/10;overflow:hidden;
-  border:1px solid var(--border);will-change:transform,opacity;
+  --drop:0px;
+  position:relative;grid-row:1;margin-top:var(--drop);
+  aspect-ratio:3/4;overflow:hidden;border:1px solid var(--border);
+  opacity:0;transform:translateY(30px);
+  transition:opacity .4s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1);
 }
+.pcf-grid.in .pcf-card{opacity:1;transform:none}
+.pcf-grid.in .pcf-card[data-i="0"]{transition-delay:0s}
+.pcf-grid.in .pcf-card[data-i="1"]{transition-delay:.1s}
+.pcf-grid.in .pcf-card[data-i="2"]{transition-delay:.2s}
+.pcf-card::before{
+  content:'';position:absolute;top:calc(-1 * var(--drop));left:22px;
+  width:1px;height:var(--drop);background:var(--border);
+}
+.pcf-card[data-i="0"]{grid-column:1;--drop:0px}
+.pcf-card[data-i="1"]{grid-column:3;--drop:clamp(80px,8vw,150px)}
+.pcf-card[data-i="2"]{grid-column:2;--drop:clamp(160px,16vw,290px)}
 .pcf-card-art{
   position:absolute;inset:0;background-size:cover;background-position:center;
 }
 .pcf-card-body{
   position:absolute;inset:0;z-index:2;
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:clamp(24px,3vw,40px);
-  background:linear-gradient(to top, rgba(6,8,16,.94) 0%, rgba(6,8,16,.5) 48%, transparent 100%);
+  padding:clamp(20px,2.4vw,30px);
+  background:linear-gradient(to top, rgba(6,8,16,.94) 0%, rgba(6,8,16,.5) 44%, transparent 100%);
 }
 .pcf-card-body h3{
-  font-family:var(--font-display);font-weight:700;font-size:clamp(20px,2.2vw,28px);
-  letter-spacing:-.01em;margin-bottom:10px;color:var(--text-display);
+  font-family:var(--font-display);font-weight:700;font-size:clamp(19px,1.9vw,25px);
+  letter-spacing:-.01em;line-height:1.22;color:var(--text-display);
 }
-.pcf-card-body p{color:var(--text-mid);font-size:clamp(13.5px,1.1vw,15px);line-height:1.6;max-width:52ch}
+.pcf-card-body p{color:var(--text-mid);font-size:13.5px;line-height:1.6;max-width:32ch;margin-top:10px}
 @media(prefers-reduced-motion:reduce){
-  .pcf{height:auto}
-  .pcf-stage{position:static;height:auto;display:flex;flex-direction:column;gap:16px;padding-block:20px}
-  .pcf-card{position:static;width:100%;transform:none!important;opacity:1!important}
+  .pcf-card{opacity:1!important;transform:none!important;transition:none!important}
 }
-@media(max-width:760px){
-  .pcf{height:auto}
-  .pcf-stage{position:static;height:auto;display:flex;flex-direction:column;gap:16px;padding-block:20px}
-  .pcf-card{position:static;width:100%;aspect-ratio:4/3;transform:none!important;opacity:1!important}
+@media(max-width:900px){
+  .pcf-grid{grid-template-columns:1fr;gap:16px}
+  .pcf-card{grid-column:1!important;--drop:0px!important;margin-top:0;aspect-ratio:4/3}
+  .pcf-card::before{display:none}
 }
 
 /* ============ PRODUCTS (categorized, dark squared cards, GCC-style) ============ */
@@ -503,24 +553,18 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .products .section-head{display:block;text-align:center;max-width:760px;margin:0 auto}
 .prod-sub{font-family:var(--font-body);color:var(--text-mid);font-size:15.5px;line-height:1.7;max-width:620px;margin:14px auto 0}
 .pcat-tabs{
-  display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(20px,3vw,44px);
+  display:flex;justify-content:center;flex-wrap:wrap;gap:10px;
   margin:36px auto 0;max-width:960px;position:relative;
-  border-bottom:1px solid var(--border);
 }
 .pcat-tab{
-  font-family:var(--font-body);font-size:14.5px;font-weight:600;
-  color:var(--text-mid);background:none;border:none;
-  padding:0 0 16px;cursor:pointer;transition:color .2s ease;
+  font-family:var(--font-body);font-size:14px;font-weight:600;
+  color:var(--text-mid);background:var(--bg-surface);
+  border:1px solid var(--border);border-radius:0;
+  padding:11px 24px;cursor:pointer;transition:color .2s ease,background .2s ease,border-color .2s ease;
 }
-.pcat-tab:hover{color:var(--text-hi)}
-.pcat-tab.on{color:var(--text-hi)}
-.pcat-indicator{
-  position:absolute;left:0;bottom:-1px;height:2px;width:0;
-  background:var(--blue-500);box-shadow:0 0 14px var(--glow);
-  transition:transform .35s cubic-bezier(.2,.6,.2,1),width .35s cubic-bezier(.2,.6,.2,1);
-  pointer-events:none;
-}
-@media(prefers-reduced-motion:reduce){.pcat-indicator{transition:none}}
+.pcat-tab:hover{color:var(--text-hi);border-color:var(--border-blue)}
+.pcat-tab.on{color:#04121C;background:var(--blue-500);border-color:var(--blue-500)}
+.pcat-indicator{display:none}
 .pcat-stage{margin-top:40px}
 .pcat-panel{display:none;justify-content:center;flex-wrap:wrap;gap:18px}
 .pcat-panel.on{display:flex}
@@ -555,7 +599,12 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 /* ============ GCC CAPABILITY (three-pillar capability cards) ============ */
 .gcc-body p{color:var(--text-mid);font-size:15.5px;line-height:1.75;max-width:68ch}
 .gcc-body b{color:var(--text-hi);font-weight:600}
-.gcc-hl{color:var(--blue-500);font-weight:600}
+.gcc-hl{
+  display:inline-block;color:var(--blue-500);font-weight:700;
+  font-size:1.12em;letter-spacing:-.005em;
+  padding:1px 10px;margin:0 1px;
+  background:rgba(0,146,215,.12);border:1px solid rgba(0,146,215,.28);
+}
 
 /* card grid: bordered boxes, staggered slide-up entrance */
 .gcc-cards{
@@ -756,32 +805,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
 </header>
 
 <!-- ================= OPERATIONALIZE AI ================= -->
-<section class="section" id="thesis">
-  <div class="ai-layout">
-    <div class="ai-content rv">
+<section class="section pov-section" id="thesis">
+  <div class="pov-hero" style="background-image:url('pov-bg.jpg')">
+    <div class="pov-veil" aria-hidden="true"></div>
+    <div class="pov-head">
       <div class="eyebrow">Our point of view</div>
       <h2 class="section-title ai-slogan">The future belongs to enterprises that<br><span class="hl">operationalize AI</span></h2>
-      <div class="ai-points">
-        <div class="ai-point">
-          <h3>Accountability beyond adoption</h3>
-          <p>AI reshapes how enterprises compete, but technology alone rarely delivers value. Lasting success comes from AI that's secure, trusted, and accountable from strategy through scale.</p>
-        </div>
-        <div class="ai-point">
-          <h3>Structured capability is advantage</h3>
-          <p>Enterprise AI succeeds through repeatable execution, strong governance, and integration into core operations. Advantage comes from applying AI responsibly, at scale.</p>
-        </div>
-      </div>
     </div>
-    <div class="ai-visual rv" aria-hidden="true">
-      <svg class="ai-mol" viewBox="0 0 400 380" role="img">
-        <g class="airings">
-          <ellipse cx="200" cy="188" rx="132" ry="52"/>
-          <ellipse cx="200" cy="188" rx="98" ry="38"/>
-          <ellipse cx="200" cy="188" rx="62" ry="24"/>
-        </g>
-        <g class="ailines"></g>
-        <g class="ainodes"></g>
-      </svg>
+  </div>
+  <div class="pov-points">
+    <div class="pov-point" data-i="0">
+      <span class="pov-dot"></span>
+      <span class="pov-line"></span>
+      <h3>Accountability beyond adoption</h3>
+      <p>AI reshapes how enterprises compete, but technology alone rarely delivers value. Lasting success comes from AI that's secure, trusted, and accountable from strategy through scale.</p>
+    </div>
+    <div class="pov-point" data-i="1">
+      <span class="pov-dot"></span>
+      <span class="pov-line"></span>
+      <h3>Structured capability is advantage</h3>
+      <p>Enterprise AI succeeds through repeatable execution, strong governance, and integration into core operations. Advantage comes from applying AI responsibly, at scale.</p>
     </div>
   </div>
 </section>
@@ -795,7 +838,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
     </div>
   </div>
     <div class="pcf">
-      <div class="pcf-stage">
+      <div class="pcf-grid">
         <article class="pcf-card" data-i="0">
           <div class="pcf-card-art" style="background-image:url('End-01.jpg')"></div>
           <div class="pcf-card-body">
@@ -1172,46 +1215,18 @@ const statIO = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold:.5});
 document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(el));
 
-/* ---------- Operationalize AI: rotating cube-molecule visual ---------- */
+/* ---------- Operationalize AI: fade-in title + dot/line-reveal points ---------- */
 (function(){
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const aiMol = document.querySelector('.ai-mol');
-  if (!aiMol) return;
-  const NS2 = 'http://www.w3.org/2000/svg';
-  function mel(t,a){ const e=document.createElementNS(NS2,t); for(const k in a) e.setAttribute(k,a[k]); return e; }
-  function mfib(n,R){ const p=[], ga=Math.PI*(3-Math.sqrt(5)); for(let i=0;i<n;i++){ const y=1-(i/(n-1))*2, r=Math.sqrt(Math.max(0,1-y*y)), t=ga*i; p.push([Math.cos(t)*r*R, y*R, Math.sin(t)*r*R]); } return p; }
-  const mcx=200, mcy=188, mR=124, mtx=0.42, mcosT=Math.cos(mtx), msinT=Math.sin(mtx);
-  const mLineG=aiMol.querySelector('.ailines'), mNodeG=aiMol.querySelector('.ainodes');
-  const mpts=mfib(9,mR);
-  const mnodes=mpts.map(p=>{ const d=mel('circle',{r:3,fill:'#ffffff'}); mNodeG.appendChild(d); return {p:p,dot:d}; });
-  const mlines=mpts.map((p,i)=>{ const l=mel('line',{stroke:'rgba(255,255,255,0.32)','stroke-width':1}); mLineG.appendChild(l); return {l:l,b:i}; });
-  function mspark(x,y,r){ const k=r*0.14; return 'M'+x+','+(y-r)+' Q'+(x+k)+','+(y-k)+' '+(x+r)+','+y+' Q'+(x+k)+','+(y+k)+' '+x+','+(y+r)+' Q'+(x-k)+','+(y+k)+' '+(x-r)+','+y+' Q'+(x-k)+','+(y-k)+' '+x+','+(y-r)+' Z'; }
-  const mCore=mel('g',{}); aiMol.appendChild(mCore);
-  const mHexR=mel('polygon',{fill:'none',stroke:'rgba(143,233,255,0.4)','stroke-width':1}); mCore.appendChild(mHexR);
-  const mHRR=40, mH2=28, mhp=[];
-  for(let hk=0;hk<6;hk++){ const ha=(-90+hk*60)*Math.PI/180; mhp.push((mcx+mH2*Math.cos(ha)).toFixed(1)+','+(mcy+mH2*Math.sin(ha)).toFixed(1)); }
-  mCore.appendChild(mel('polygon',{points:mhp.join(' '),fill:'rgba(0,146,215,0.08)',stroke:'rgba(0,146,215,0.5)','stroke-width':1}));
-  const mSpark=mel('path',{d:mspark(mcx,mcy,17),fill:'#0092D7'}); mCore.appendChild(mSpark);
-  const mTwk=mel('path',{d:mspark(mcx+13,mcy-13,5.5),fill:'#5FBEEA'}); mCore.appendChild(mTwk);
-  let ma=0.6;
-  function mproj(p){
-    const ca=Math.cos(ma), sa=Math.sin(ma);
-    const x1=p[0]*ca+p[2]*sa, z1=-p[0]*sa+p[2]*ca, y1=p[1];
-    const y2=y1*mcosT - z1*msinT, z2=y1*msinT + z1*mcosT;
-    return {x:mcx+x1, y:mcy+y2, z:z2};
-  }
-  function mframe(now){
-    const tt=(now||0)/1000;
-    const pr=mnodes.map(nd=>mproj(nd.p));
-    mnodes.forEach((nd,i)=>{ const d=pr[i], t=(d.z+mR)/(2*mR); nd.dot.setAttribute('cx',d.x.toFixed(1)); nd.dot.setAttribute('cy',d.y.toFixed(1)); nd.dot.setAttribute('r',(2.1+2.3*t).toFixed(1)); nd.dot.setAttribute('opacity',(0.30+0.60*t).toFixed(2)); });
-    mlines.forEach(L=>{ const d=pr[L.b]; L.l.setAttribute('x1',mcx); L.l.setAttribute('y1',mcy); L.l.setAttribute('x2',d.x.toFixed(1)); L.l.setAttribute('y2',d.y.toFixed(1)); L.l.setAttribute('opacity',(0.14+0.30*((d.z+mR)/(2*mR))).toFixed(2)); });
-    const hpts=[]; for(let kk=0;kk<6;kk++){ const an=ma+kk*Math.PI/3; hpts.push((mcx+mHRR*Math.cos(an)).toFixed(1)+','+(mcy+mHRR*Math.sin(an)).toFixed(1)); }
-    mHexR.setAttribute('points', hpts.join(' '));
-    mSpark.setAttribute('opacity',(0.88+0.12*Math.sin(tt*1.8)).toFixed(2));
-    mTwk.setAttribute('opacity',(0.2+0.6*(0.5+0.5*Math.sin(tt*2.6+1))).toFixed(2));
-    if(!reduce){ ma+=0.0028; requestAnimationFrame(mframe); }
-  }
-  requestAnimationFrame(mframe);
+  var head=document.querySelector('.pov-head');
+  var points=[].slice.call(document.querySelectorAll('.pov-point'));
+  if(!head && !points.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.2});
+  if(head) io.observe(head);
+  points.forEach(function(p){ io.observe(p); });
 })();
 
 /* ---------- Why BCT carousel ---------- */
@@ -1284,40 +1299,13 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
 })();</script>
 <script>(function(){var btn=document.querySelector('.to-top');if(!btn)return;function onScroll(){var y=window.scrollY||document.documentElement.scrollTop||0;btn.classList.toggle('show',y>600);}window.addEventListener('scroll',onScroll,{passive:true});onScroll();btn.addEventListener('click',function(){try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){window.scrollTo(0,0);}});})();</script>
 <script>(function(){
-  var wrap=document.querySelector('.pcf'); if(!wrap) return;
-  var cards=[].slice.call(wrap.querySelectorAll('.pcf-card')); if(!cards.length) return;
-  var mqSmall=window.matchMedia('(max-width:760px)'), rm=window.matchMedia('(prefers-reduced-motion: reduce)');
-  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-  function lerp(a,b,t){return a+(b-a)*t;}
-  var ticking=false;
-  function frame(){
-    ticking=false;
-    if(mqSmall.matches||rm.matches){
-      cards.forEach(function(c){c.style.transform='';c.style.opacity='';c.style.zIndex='';});
-      return;
-    }
-    var r=wrap.getBoundingClientRect();
-    var total=r.height-window.innerHeight;
-    var p=clamp(-r.top/total,0,1);
-    var ci=p*(cards.length-1);
-    cards.forEach(function(card,i){
-      var rel=ci-i, scale,ty,op;
-      if(rel<=0){
-        var t=clamp(1+rel,0,1);
-        scale=lerp(.84,1,t); ty=lerp(46,0,t); op=clamp(t*1.8,0,1);
-      } else {
-        var t2=clamp(rel,0,1);
-        scale=lerp(1,.88,t2); ty=lerp(0,-3,t2); op=lerp(1,.4,t2);
-      }
-      card.style.transform='translate(-50%, calc(-50% + '+ty+'%)) scale('+scale+')';
-      card.style.opacity=op;
-      card.style.zIndex=String(100-Math.round(Math.abs(rel)*10));
+  var grid=document.querySelector('.pcf-grid'); if(!grid) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ grid.classList.add('in'); io.disconnect(); }
     });
-  }
-  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(frame);} }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll);
-  frame();
+  },{threshold:.1});
+  io.observe(grid);
 })();</script>
 </body>
 </html>
