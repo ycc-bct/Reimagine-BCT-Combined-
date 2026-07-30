@@ -172,6 +172,8 @@ p,.why-card-copy{text-wrap:pretty}
 .hero-h1 .hm{display:block;padding-bottom:.06em;margin-bottom:-.06em}
 .hero-h1 .l1,.hero-h1 .l2{display:block}
 .hero-h1 .l2{margin-left:0}
+/* keep the headline at exactly 2 lines on very narrow phones */
+@media(max-width:380px){.hero-h1{font-size:clamp(22px,6.8vw,28px)}}
 /* shiny sweep text (motionsites ShinyText, CSS-only) */
 .shiny{
   color:transparent;
@@ -853,8 +855,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-inner">
     <h1 class="hero-h1">
-      <span class="hm"><span class="l1">Reimagining technology</span></span>
-      <span class="hm"><span class="l2 shiny">for modern enterprises</span></span>
+      <span class="hm"><span class="l1">Engineering for the</span></span>
+      <span class="hm"><span class="l2 shiny">intelligent enterprise</span></span>
     </h1>
     <div class="hero-side">
       <div class="bar"></div>
