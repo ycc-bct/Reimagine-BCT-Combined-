@@ -157,7 +157,7 @@ p,.why-card-copy{text-wrap:pretty}
 .hero{position:relative}
 .hero-stage{
   position:relative;
-  height:clamp(1000px,88.7vw,1297px);
+  height:clamp(1200px,calc(88.7vw + 200px),1497px);
   padding:0 var(--pad-x);
   background:var(--bg-base);
   overflow:hidden;
@@ -169,7 +169,7 @@ p,.why-card-copy{text-wrap:pretty}
   background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 34%,rgba(6,8,16,.55) 74%,var(--bg-base) 100%);
 }
 /* column rules */
-.hero-rules{position:absolute;inset:0 0 auto;height:61.3%;z-index:1;pointer-events:none;overflow:hidden}
+.hero-rules{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .hero-rules i{position:absolute;width:1px;bottom:0;background:rgba(165,165,165,.5);opacity:.5}
 .hero-rules i:nth-child(1){left:42.1%;top:19.9%}
 .hero-rules i:nth-child(2){left:55.7%;top:19.9%}
@@ -182,7 +182,7 @@ p,.why-card-copy{text-wrap:pretty}
   display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:start;
 }
 /* point-of-view statement, sitting under the headline on the left */
-.pov-block{position:absolute;left:var(--pad-x);top:47.7%;z-index:2;max-width:50%}
+.pov-block{position:absolute;left:var(--pad-x);bottom:6.5%;z-index:2;max-width:42%}
 @keyframes povRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 .pov-block .eyebrow{color:#1294D7;font-weight:700;opacity:0;animation:povRise .8s .40s cubic-bezier(.16,1,.3,1) forwards}
 .pov-block h2{
@@ -553,21 +553,23 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   position:absolute;overflow:hidden;pointer-events:auto;
   height:30.5%;aspect-ratio:313.65/395.02;
   background:#115080;
-  transform-origin:center center;
-  opacity:0;animation:pcZoom .8s cubic-bezier(.16,1,.3,1) forwards;
+  transform-origin:center bottom;
+  opacity:0;transform:translateY(120px) scale(.76);
+  transition:opacity .5s ease,transform .78s cubic-bezier(.16,1,.3,1);
 }
+.hero.cards-in .pc{opacity:1;transform:none}
 .pc::after{
   content:"";position:absolute;z-index:3;inset:0;
-  background:rgba(3,7,14,.72);opacity:0;
+  background:linear-gradient(0deg,rgba(7,57,88,.9) 0%,rgba(5,35,55,.64) 45%,rgba(0,146,215,0) 100%);
+  opacity:0;
   transition:opacity .32s ease;
   pointer-events:none;
 }
 .pc:hover::after,.pc:focus-within::after{opacity:1}
-@keyframes pcZoom{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
 .pc-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
 .pc-veil{position:absolute;inset:0;background:linear-gradient(180deg,#091323 20.04%,rgba(35,74,137,0) 95.97%)}
 .pc-body{
-  position:relative;z-index:4;padding:9.2% 7.5%;
+  position:absolute;z-index:4;left:0;right:0;bottom:0;padding:9.2% 7.5%;
   display:flex;flex-direction:column;align-items:flex-start;
 }
 .pc h3{
@@ -585,9 +587,9 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 .pc:hover .pc-detail,.pc:focus-within .pc-detail{opacity:1;transform:translateY(0)}
 .pc-detail p{color:rgba(255,255,255,.90);font-size:clamp(12px,1.02vw,14.5px);line-height:1.6}
 
-.pc-2{left:65.5%;top:50.7%;animation-delay:.68s}
+.pc-2{left:73%;top:54%;transition-delay:.08s}
 .pc-2 .pc-photo{background-image:url('pov-card-meeting.jpg');background-position:center 40%}
-.pc-3{left:29.1%;top:65.9%;animation-delay:.82s}
+.pc-3{left:47%;top:68%;transition-delay:.18s}
 .pc-3 .pc-photo{background-image:url('img_particle.png')}
 
 @media(max-width:900px){
@@ -598,10 +600,10 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   .hero-inner{position:static;grid-template-columns:1fr;gap:36px}
   .pov-block{position:static;max-width:none;margin-top:56px}
   .hero-cards{position:static;display:grid;gap:16px;margin-top:32px}
-  .pc{position:static;height:auto;width:100%;aspect-ratio:16/10}
+  .pc{position:relative;height:auto;width:100%;aspect-ratio:16/10}
 }
 @media(prefers-reduced-motion:reduce){
-  .pc{opacity:1;animation:none}
+  .pc{opacity:1;transform:none;transition:none}
   .pc-detail{transition:none;transform:none}
   .who-number-slide{transition:none}
   .pov-block .eyebrow,.pov-block h2{opacity:1;animation:none}
@@ -1575,6 +1577,35 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
     if(move(event.key==='ArrowDown'?1:-1)) event.preventDefault();
   });
   show(0);
+})();</script>
+<script>(function(){
+  var hero=document.querySelector('.hero');
+  var cards=hero&&hero.querySelector('.hero-cards');
+  if(!hero||!cards) return;
+  var mobile=window.matchMedia('(max-width:900px)');
+  var shown=false,ticking=false;
+  function reveal(){
+    if(shown) return;
+    var target=mobile.matches?cards:hero;
+    var rect=target.getBoundingClientRect();
+    var reached=mobile.matches
+      ? rect.top<=window.innerHeight*.82
+      : rect.bottom<=window.innerHeight+40;
+    if(reached){
+      shown=true;
+      hero.classList.add('cards-in');
+      window.removeEventListener('scroll',onScroll);
+      window.removeEventListener('resize',onScroll);
+    }
+  }
+  function onScroll(){
+    if(ticking) return;
+    ticking=true;
+    requestAnimationFrame(function(){ticking=false;reveal();});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  reveal();
 })();</script>
 </body>
 </html>
