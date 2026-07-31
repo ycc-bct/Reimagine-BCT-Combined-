@@ -449,18 +449,6 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 
 /* ============ WHO WE ARE — switchable A / B proposals ============ */
 .who-section{position:relative;border-top:1px solid var(--border);background:var(--bg-base)}
-.who-switch{
-  position:absolute;z-index:6;top:32px;right:var(--pad-x);
-  display:inline-flex;align-items:center;padding:3px;
-  border:1px solid var(--border);background:rgba(12,15,26,.88);
-}
-.who-switch button{
-  width:36px;height:32px;border:0;background:transparent;color:var(--text-low);
-  font-family:var(--font-body);font-size:.75rem;font-weight:600;cursor:pointer;
-  transition:background .2s ease,color .2s ease;
-}
-.who-switch button[aria-selected="true"]{background:var(--blue-500);color:#04121C}
-.who-panel[hidden]{display:none}
 .who-intro{padding:clamp(56px,8vw,var(--section-pad-y)) var(--pad-x) 0}
 .who-intro-inner{max-width:820px;margin:0 auto;text-align:center}
 .who-intro .section-title{margin-top:10px}
@@ -487,64 +475,107 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 }
 .who-b{
   position:relative;isolation:isolate;overflow:hidden;
-  min-height:clamp(620px,68vw,780px);
-  padding:var(--section-pad-y) var(--pad-x);
-  background:#090C15;
+  min-height:clamp(760px,62.25vw,902px);
+  background:#0F0F19;
 }
 .who-b::before{
-  content:"";position:absolute;z-index:-2;
-  width:min(62vw,820px);aspect-ratio:1.3;right:-8%;top:-10%;
+  content:"";position:absolute;z-index:-2;inset:45.45% 0 0;
   background:
-    radial-gradient(circle at 58% 36%,rgba(0,146,215,.68) 0 8%,rgba(0,146,215,.26) 28%,transparent 58%);
-  filter:blur(36px);opacity:.86;
+    linear-gradient(180deg,#0F0F19 0%,rgba(15,15,25,.82) 18%,rgba(15,15,25,0) 44%),
+    url('img_wave.png') center bottom/100% 100% no-repeat;
 }
 .who-b::after{
   content:"";position:absolute;z-index:-1;inset:0;
-  background:radial-gradient(ellipse at center,transparent 30%,rgba(6,8,16,.34) 68%,rgba(6,8,16,.86) 100%);
+  background:linear-gradient(180deg,rgba(15,15,25,0) 50%,rgba(5,8,17,.08) 100%);
   pointer-events:none;
 }
 .who-b-copy{
   position:absolute;z-index:3;
-  left:max(var(--pad-x),calc((100% - 1320px)/2));right:48%;
-  bottom:var(--section-pad-y);
+  left:5.73%;top:16.41%;width:42.93%;
 }
-.who-b-copy .eyebrow{margin-bottom:18px}
+.who-b-copy .eyebrow{margin-bottom:16px}
 .who-b-copy .section-title{
-  max-width:15ch;margin:0 0 24px;
+  max-width:none;margin:0 0 16px;
+  font-size:clamp(2rem,2.76vw,2.5rem);line-height:1.4;
 }
 .who-b-story{
-  max-width:64ch;color:rgba(245,248,252,.68);
-  font-size:var(--fs-content);line-height:1.7;
+  max-width:535px;color:#E1E1E1;
+  font-size:1rem;line-height:1.5;
 }
-.who-number-carousel{
-  position:absolute;z-index:2;right:clamp(36px,6vw,84px);top:clamp(76px,8vw,112px);
-  width:min(54vw,780px);height:clamp(240px,32vw,470px);
-  overflow:visible;outline:none;touch-action:pan-y;
+.who-slot-machine{
+  position:absolute;z-index:2;left:47%;right:4%;top:10.64%;height:83%;
+  outline:none;touch-action:pan-y;
 }
-.who-number-track{
-  position:relative;height:100%;
+.who-reel{
+  position:absolute;top:0;height:83%;overflow:hidden;
 }
-.who-number-slide{
-  position:absolute;inset:0;height:100%;
-  display:flex;justify-content:flex-end;align-items:flex-start;padding-right:.08em;
-  font-family:var(--font-display);font-size:clamp(10rem,24vw,22rem);
-  font-weight:800;line-height:.72;letter-spacing:-.11em;white-space:nowrap;
-  color:#080B13;-webkit-text-stroke:1px rgba(215,223,233,.08);
-  text-shadow:0 0 20px rgba(0,146,215,.7),0 0 72px rgba(0,146,215,.5),0 0 150px rgba(0,99,149,.34);
-  user-select:none;opacity:0;transform:translateY(28%);
+.who-reel-left{left:0;width:46%}
+.who-reel-right{left:44%;top:8.87%;width:46%}
+.who-reel-item{
+  position:absolute;inset:0;
+  display:flex;align-items:flex-start;justify-content:center;
+  font-family:var(--font-display);font-weight:900;
+  font-size:clamp(17rem,34.46vw,31.208rem);line-height:1.5;
+  color:rgba(1,4,10,.82);-webkit-text-stroke:1px rgba(120,205,246,.1);
+  text-shadow:0 1px 0 rgba(145,220,255,.06);
+  white-space:nowrap;user-select:none;
+  opacity:0;
+  transition:opacity .28s ease,transform .7s cubic-bezier(.16,1,.3,1),text-shadow .28s ease,-webkit-text-stroke-color .28s ease;
+}
+.who-reel-left .who-reel-item.is-future{transform:translateY(-105%)}
+.who-reel-left .who-reel-item.is-past{transform:translateY(105%)}
+.who-reel-right .who-reel-item.is-future{transform:translateY(105%)}
+.who-reel-right .who-reel-item.is-past{transform:translateY(-105%)}
+.who-reel-item.is-active{opacity:1;transform:none}
+.who-slot-aux{
+  position:absolute;inset:0;pointer-events:none;
+}
+.who-slot-aux-item{
+  position:absolute;inset:0;opacity:0;transform:scale(.82);
   transition:opacity .28s ease,transform .55s cubic-bezier(.16,1,.3,1);
 }
-.who-number-slide:nth-child(3){font-size:clamp(7.5rem,17vw,15.5rem);letter-spacing:-.08em}
-.who-number-slide.is-before{transform:translateY(-28%)}
-.who-number-slide.is-active{opacity:1;transform:none}
+.who-slot-aux-item.is-active{opacity:1;transform:none}
+.who-slot-symbol{
+  position:absolute;font-family:var(--font-display);font-weight:900;
+  font-size:clamp(7rem,13.8vw,12.5rem);line-height:1.5;
+  color:rgba(1,4,10,.82);-webkit-text-stroke:1px rgba(120,205,246,.1);
+  text-shadow:0 1px 0 rgba(145,220,255,.06);
+  transition:text-shadow .28s ease,-webkit-text-stroke-color .28s ease;
+}
+.who-slot-machine:hover .who-reel-item.is-active,
+.who-slot-machine:focus-visible .who-reel-item.is-active,
+.who-slot-machine:hover .who-slot-aux-item.is-active .who-slot-symbol,
+.who-slot-machine:focus-visible .who-slot-aux-item.is-active .who-slot-symbol{
+  -webkit-text-stroke-color:rgba(135,218,255,.3);
+  text-shadow:0 0 7px rgba(42,167,224,.18),0 1px 0 rgba(181,232,255,.18);
+}
+.who-slot-symbol--suffix{right:0;top:24.6%}
+.who-slot-symbol--dot{left:34.8%;top:45.4%}
+.who-tag-reel{
+  position:absolute;left:6.4%;right:0;top:86.2%;height:54px;overflow:hidden;
+}
+.who-tag-item{
+  position:absolute;inset:0;color:#fff;
+  font-family:var(--font-body);font-weight:400;
+  font-size:clamp(1.75rem,2.76vw,2.5rem);line-height:1.2;
+  opacity:0;transform:translateY(-110%);
+  transition:opacity .28s ease,transform .62s cubic-bezier(.16,1,.3,1);
+}
+.who-tag-item.is-past{transform:translateY(110%)}
+.who-tag-item.is-active{opacity:1;transform:none}
 @media(max-width:780px){
-  .who-switch{top:20px}
-  .who-b{min-height:760px;padding:80px var(--pad-x) 64px}
-  .who-number-carousel{top:88px;right:var(--pad-x);width:86vw;height:260px}
-  .who-number-slide{font-size:clamp(9rem,54vw,17rem)}
-  .who-number-slide:nth-child(3){font-size:clamp(6.5rem,37vw,12rem)}
-  .who-b-copy{left:var(--pad-x);right:var(--pad-x);bottom:64px}
-  .who-b-copy .section-title{max-width:13ch;margin-bottom:24px}
+    .who-b{min-height:760px}
+  .who-b-copy{left:var(--pad-x);top:72px;width:calc(100% - var(--pad-x)*2)}
+  .who-b-copy .section-title{max-width:14ch}
+  .who-slot-machine{left:var(--pad-x);right:var(--pad-x);top:310px;height:400px}
+  .who-reel{height:300px}
+  .who-reel-left{left:8%;width:40%}
+  .who-reel-right{left:45%;top:26px;width:40%}
+  .who-reel-item{font-size:clamp(12rem,52vw,17rem)}
+  .who-slot-symbol{font-size:clamp(5rem,24vw,8rem)}
+  .who-slot-symbol--suffix{right:0;top:25%}
+  .who-slot-symbol--dot{left:39%;top:45%}
+  .who-tag-reel{left:8%;top:330px}
 }
 
 /* ============ HERO POINT CARDS (placed to the frame, sized off stage height) ============ */
@@ -596,35 +627,28 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 @media(min-width:901px){
   .hero .hero-stage{height:clamp(1100px,99.04vw,1448px)}
   .hero .hero-video{height:56.56%;top:-1.59%}
-  /* video reads clean through the middle, then dims smoothly into the backdrop
-     so its bottom edge dissolves instead of cutting off */
   .hero .hero-veil{
-    background:linear-gradient(180deg,
-      rgba(6,8,16,.58) 0%,
-      rgba(6,8,16,.16) 26%,
-      rgba(6,8,16,0) 33%,
-      rgba(6,8,16,.28) 41%,
-      rgba(6,8,16,.62) 47.5%,
-      rgba(6,8,16,.88) 52%,
-      var(--bg-base) 55.5%,
-      var(--bg-base) 100%);
+    background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 29%,rgba(0,1,3,0) 42.4%,var(--bg-base) 57.9%,var(--bg-base) 100%);
   }
   .hero .hero-inner{inset:0;display:block}
   .hero .hero-h1{position:absolute;left:5.95%;top:13.05%;width:45.69%}
   .hero .hero-side{position:absolute;left:64.71%;top:13.05%;width:23.19%;padding:0}
   .hero .hero-side .bar{width:40px;margin-bottom:12px}
-  .hero .pov-block{left:5.95%;top:calc(54.56% - 40px);max-width:49.8%}
+  .hero .pov-block{left:5.95%;top:calc(54.56% - 100px);max-width:49.8%}
   .hero .pc{height:27.28%}
-  .hero .pc-2{left:65.46%;top:61.33%}
-  .hero .pc-3{left:29.14%;top:69.27%}
+  /* starts level with the point-of-view block; the scroll handler slides it
+     down to its resting slot (61.33% - 60px) as the section bottoms out */
+  .hero .pc-2{left:65.46%;top:calc(54.56% - 100px);
+    transition:opacity .5s ease,transform .3s cubic-bezier(.16,1,.3,1)}
+  .hero .pc-3{left:29.14%;top:calc(69.27% - 60px)}
   .hero .pc-body{top:0;bottom:auto}
   .hero .hero-rules{inset:0}
   .hero .hero-rules i{display:block;top:auto;bottom:auto}
-  .hero .hero-rules i:nth-child(1){left:55.75%;top:55.8%;height:17.5%}
+  .hero .hero-rules i:nth-child(1){left:55.75%;top:19.92%;height:53.38%}
   .hero .hero-rules i:nth-child(2){left:5.95%;top:80.84%;height:12.78%}
   .hero .hero-rules i:nth-child(3){left:24.01%;top:61.67%;height:25.55%}
   .hero .hero-rules i:nth-child(4){left:73.87%;top:61.67%;height:25.55%}
-  .hero .hero-rules i:nth-child(5){left:91.93%;top:55.8%;height:21.5%}
+  .hero .hero-rules i:nth-child(5){left:91.93%;top:31.84%;height:45.44%}
 }
 
 @media(max-width:900px){
@@ -640,7 +664,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 @media(prefers-reduced-motion:reduce){
   .pc{opacity:1;transform:none;transition:none}
   .pc-detail{transition:none;transform:none}
-  .who-number-slide{transition:none}
+  .who-reel-item,.who-slot-aux-item,.who-tag-item{transition:none}
   .pov-block .eyebrow,.pov-block h2{opacity:1;animation:none}
 }
 
@@ -1193,51 +1217,33 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
 
 <!-- ================= WHO WE ARE ================= -->
 <section class="who-section" id="who">
-  <div class="who-switch" role="tablist" aria-label="Who we are section version">
-    <button type="button" role="tab" id="who-tab-a" aria-selected="true" aria-controls="who-panel-a" data-who-version="a">A</button>
-    <button type="button" role="tab" id="who-tab-b" aria-selected="false" aria-controls="who-panel-b" data-who-version="b">B</button>
-  </div>
-
-  <div class="who-panel" id="who-panel-a" role="tabpanel" aria-labelledby="who-tab-a" data-who-panel="a">
-    <div class="who-intro">
-      <div class="who-intro-inner rv">
-        <div class="eyebrow">Who we are</div>
-        <h2 class="section-title">A global enterprise transformation partner</h2>
+  <div class="who-b">
+    <div class="who-slot-machine" tabindex="0" role="region" aria-roledescription="carousel" aria-label="BCT company figures">
+      <div class="who-reel who-reel-left" aria-hidden="true">
+        <span class="who-reel-item" data-slot-index="0">2</span>
+        <span class="who-reel-item" data-slot-index="1">5</span>
+        <span class="who-reel-item" data-slot-index="2">2</span>
+      </div>
+      <div class="who-reel who-reel-right" aria-hidden="true">
+        <span class="who-reel-item" data-slot-index="0">7</span>
+        <span class="who-reel-item" data-slot-index="1">0</span>
+        <span class="who-reel-item" data-slot-index="2">2</span>
+      </div>
+      <div class="who-slot-aux" aria-hidden="true">
+        <span class="who-slot-aux-item" data-slot-index="0"></span>
+        <span class="who-slot-aux-item" data-slot-index="1"><b class="who-slot-symbol who-slot-symbol--suffix">+</b></span>
+        <span class="who-slot-aux-item" data-slot-index="2"><b class="who-slot-symbol who-slot-symbol--dot">.</b><b class="who-slot-symbol who-slot-symbol--suffix">K</b></span>
+      </div>
+      <div class="who-tag-reel" aria-live="polite">
+        <span class="who-tag-item" data-slot-index="0">Years</span>
+        <span class="who-tag-item" data-slot-index="1">Countries</span>
+        <span class="who-tag-item" data-slot-index="2">Clients</span>
       </div>
     </div>
-    <div class="stats">
-      <h3 class="stats-note rv">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</h3>
-      <div class="stats-grid rv">
-        <div>
-          <div class="stat-num" data-count="27">27</div>
-          <div class="stat-label">Years</div>
-        </div>
-        <div>
-          <div class="stat-num" data-count="50" data-suffix="+">50+</div>
-          <div class="stat-label">Countries</div>
-        </div>
-        <div>
-          <div class="stat-num" data-count="2200" data-suffix="+">2,200+</div>
-          <div class="stat-label">Enterprise clients</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="who-panel" id="who-panel-b" role="tabpanel" aria-labelledby="who-tab-b" data-who-panel="b" hidden>
-    <div class="who-b">
-      <div class="who-number-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="BCT company figures">
-        <div class="who-number-track">
-          <div class="who-number-slide" role="group" aria-label="1 of 3: 27 years">27</div>
-          <div class="who-number-slide" role="group" aria-label="2 of 3: 50 countries">50</div>
-          <div class="who-number-slide" role="group" aria-label="3 of 3: 2.2 thousand enterprise clients">2.2K</div>
-        </div>
-      </div>
-      <div class="who-b-copy">
-        <div class="eyebrow">Who we are</div>
-        <h2 class="section-title">A global enterprise transformation partner</h2>
-        <p class="who-b-story">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</p>
-      </div>
+    <div class="who-b-copy">
+      <div class="eyebrow">Who we are</div>
+      <h2 class="section-title">A global enterprise transformation partner</h2>
+      <p class="who-b-story">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</p>
     </div>
   </div>
 </section>
@@ -1544,53 +1550,26 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
   },{threshold:.1});
   io.observe(grid);
 })();</script>
+
 <script>(function(){
-  var section=document.getElementById('who'); if(!section) return;
-  var tabs=[].slice.call(section.querySelectorAll('[data-who-version]'));
-  var panels=[].slice.call(section.querySelectorAll('[data-who-panel]'));
-  function activate(version){
-    tabs.forEach(function(tab){
-      var selected=tab.dataset.whoVersion===version;
-      tab.setAttribute('aria-selected',selected?'true':'false');
-      tab.tabIndex=selected?0:-1;
-    });
-    panels.forEach(function(panel){
-      var selected=panel.dataset.whoPanel===version;
-      panel.hidden=!selected;
-      if(selected){
-        panel.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
-      }
-    });
-  }
-  tabs.forEach(function(tab){
-    tab.addEventListener('click',function(){activate(tab.dataset.whoVersion);});
-    tab.addEventListener('keydown',function(event){
-      if(event.key!=='ArrowLeft'&&event.key!=='ArrowRight') return;
-      event.preventDefault();
-      var next=tab.dataset.whoVersion==='a'?'b':'a';
-      activate(next);
-      section.querySelector('[data-who-version="'+next+'"]').focus();
-    });
-  });
-  activate('a');
-})();</script>
-<script>(function(){
-  var carousel=document.querySelector('.who-number-carousel');
-  if(!carousel) return;
-  var surface=carousel.closest('.who-b')||carousel;
-  var slides=[].slice.call(carousel.querySelectorAll('.who-number-slide'));
+  var machine=document.querySelector('.who-slot-machine');
+  if(!machine) return;
+  var surface=machine.closest('.who-b')||machine;
+  var items=[].slice.call(machine.querySelectorAll('[data-slot-index]'));
   var index=0,locked=false,touchStart=0;
   function show(next){
-    index=Math.max(0,Math.min(slides.length-1,next));
-    slides.forEach(function(slide,i){
-      slide.classList.toggle('is-active',i===index);
-      slide.classList.toggle('is-before',i<index);
-      slide.setAttribute('aria-hidden',i===index?'false':'true');
+    index=Math.max(0,Math.min(2,next));
+    items.forEach(function(item){
+      var itemIndex=Number(item.dataset.slotIndex);
+      item.classList.toggle('is-active',itemIndex===index);
+      item.classList.toggle('is-past',itemIndex<index);
+      item.classList.toggle('is-future',itemIndex>index);
+      if(item.closest('.who-tag-reel')) item.setAttribute('aria-hidden',itemIndex===index?'false':'true');
     });
   }
   function move(direction){
     var next=index+direction;
-    if(next<0||next>=slides.length) return false;
+    if(next<0||next>=3) return false;
     show(next);
     return true;
   }
@@ -1607,7 +1586,7 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
     var delta=touchStart-event.changedTouches[0].clientY;
     if(Math.abs(delta)>32) move(delta>0?1:-1);
   },{passive:true});
-  carousel.addEventListener('keydown',function(event){
+  machine.addEventListener('keydown',function(event){
     if(event.key!=='ArrowDown'&&event.key!=='ArrowUp') return;
     if(move(event.key==='ArrowDown'?1:-1)) event.preventDefault();
   });
@@ -1641,6 +1620,40 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll);
   reveal();
+})();</script>
+<script>(function(){
+  /* the Accountability card sits level with the point-of-view block, then drops
+     into its resting slot once the section bottoms out (same cue as .cards-in) */
+  var hero=document.querySelector('.hero');
+  var stage=document.querySelector('.hero-stage');
+  var pc2=document.querySelector('.pc-2');
+  if(!hero||!stage||!pc2) return;
+  var wide=window.matchMedia('(min-width:901px)');
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
+  var dropped=false;
+
+  function slide(){
+    if(!wide.matches) return 0;
+    return Math.max(0, stage.clientHeight*0.6133 - 60 - pc2.offsetTop);
+  }
+  function apply(animate){
+    if(!wide.matches){ pc2.style.transition=''; pc2.style.transform=''; return; }
+    var d=slide();
+    pc2.style.transition = (animate && !rm.matches)
+      ? 'transform .85s cubic-bezier(.16,1,.3,1)' : 'none';
+    pc2.style.transform = 'translateY('+d.toFixed(1)+'px)';
+  }
+  function drop(){
+    if(dropped || !hero.classList.contains('cards-in')) return;
+    dropped=true;
+    /* let the card's entrance settle before it travels down */
+    setTimeout(function(){ apply(true); }, rm.matches?0:420);
+  }
+
+  new MutationObserver(drop).observe(hero,{attributes:true,attributeFilter:['class']});
+  addEventListener('resize',function(){ if(dropped) apply(false); },{passive:true});
+  if(wide.addEventListener) wide.addEventListener('change',function(){ if(dropped) apply(false); });
+  drop();
 })();</script>
 </body>
 </html>
