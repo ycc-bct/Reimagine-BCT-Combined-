@@ -596,8 +596,18 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 @media(min-width:901px){
   .hero .hero-stage{height:clamp(1100px,99.04vw,1448px)}
   .hero .hero-video{height:56.56%;top:-1.59%}
+  /* video reads clean through the middle, then dims smoothly into the backdrop
+     so its bottom edge dissolves instead of cutting off */
   .hero .hero-veil{
-    background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 29%,rgba(0,1,3,0) 42.4%,var(--bg-base) 57.9%,var(--bg-base) 100%);
+    background:linear-gradient(180deg,
+      rgba(6,8,16,.58) 0%,
+      rgba(6,8,16,.16) 26%,
+      rgba(6,8,16,0) 33%,
+      rgba(6,8,16,.28) 41%,
+      rgba(6,8,16,.62) 47.5%,
+      rgba(6,8,16,.88) 52%,
+      var(--bg-base) 55.5%,
+      var(--bg-base) 100%);
   }
   .hero .hero-inner{inset:0;display:block}
   .hero .hero-h1{position:absolute;left:5.95%;top:13.05%;width:45.69%}
@@ -610,11 +620,11 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   .hero .pc-body{top:0;bottom:auto}
   .hero .hero-rules{inset:0}
   .hero .hero-rules i{display:block;top:auto;bottom:auto}
-  .hero .hero-rules i:nth-child(1){left:55.75%;top:19.92%;height:53.38%}
+  .hero .hero-rules i:nth-child(1){left:55.75%;top:55.8%;height:17.5%}
   .hero .hero-rules i:nth-child(2){left:5.95%;top:80.84%;height:12.78%}
   .hero .hero-rules i:nth-child(3){left:24.01%;top:61.67%;height:25.55%}
   .hero .hero-rules i:nth-child(4){left:73.87%;top:61.67%;height:25.55%}
-  .hero .hero-rules i:nth-child(5){left:91.93%;top:31.84%;height:45.44%}
+  .hero .hero-rules i:nth-child(5){left:91.93%;top:55.8%;height:21.5%}
 }
 
 @media(max-width:900px){
