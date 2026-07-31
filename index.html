@@ -589,6 +589,9 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   transition:opacity .5s ease,transform .78s cubic-bezier(.16,1,.3,1);
 }
 .hero.cards-in .pc{opacity:1;transform:none}
+/* the Accountability card is present from the outset — it only travels
+   downward later, so it never waits on the .cards-in reveal */
+.hero .pc-2{opacity:1;transform:none}
 .pc::after{
   content:"";position:absolute;z-index:3;inset:0;
   background:linear-gradient(0deg,rgba(7,57,88,.9) 0%,rgba(5,35,55,.64) 45%,rgba(0,146,215,0) 100%);
