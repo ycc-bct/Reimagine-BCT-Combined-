@@ -162,19 +162,19 @@ p,.why-card-copy{text-wrap:pretty}
   background:var(--bg-base);
   overflow:hidden;
 }
-/* the video only covers the upper band, then fades into the flat backdrop */
-.hero-video{position:absolute;top:0;left:0;width:100%;height:61.3%;object-fit:cover;z-index:0;pointer-events:none}
+/* one continuous hero canvas: the video extends through the stage and dissolves into black */
+.hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
 .hero-veil{
-  position:absolute;top:0;left:0;right:0;height:61.3%;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 34%,rgba(6,8,16,.55) 74%,var(--bg-base) 100%);
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 28%,rgba(6,8,16,.62) 44%,var(--bg-base) 54%,var(--bg-base) 100%);
 }
-/* column rules */
-.hero-rules{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+/* column rules begin only where the POV/card field begins, never over the video artwork */
+.hero-rules{position:absolute;left:0;right:0;top:54%;bottom:0;z-index:1;pointer-events:none;overflow:hidden}
 .hero-rules i{position:absolute;width:1px;bottom:0;background:rgba(165,165,165,.5);opacity:.5}
-.hero-rules i:nth-child(1){left:42.1%;top:19.9%}
-.hero-rules i:nth-child(2){left:55.7%;top:19.9%}
-.hero-rules i:nth-child(3){left:73.8%;top:19.9%}
-.hero-rules i:nth-child(4){left:91.9%;top:19.9%}
+.hero-rules i:nth-child(1){left:42.1%;top:0}
+.hero-rules i:nth-child(2){left:55.7%;top:0}
+.hero-rules i:nth-child(3){left:73.8%;top:0}
+.hero-rules i:nth-child(4){left:91.9%;top:0}
 .hero-rules i:nth-child(5){left:5.95%;top:57.7%}
 .hero-rules i:nth-child(6){left:24%;top:71.2%}
 .hero-inner{
@@ -182,7 +182,7 @@ p,.why-card-copy{text-wrap:pretty}
   display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:start;
 }
 /* point-of-view statement, sitting under the headline on the left */
-.pov-block{position:absolute;left:var(--pad-x);bottom:6.5%;z-index:2;max-width:42%}
+.pov-block{position:absolute;left:var(--pad-x);top:54%;z-index:2;max-width:42%}
 @keyframes povRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 .pov-block .eyebrow{color:#1294D7;font-weight:700;opacity:0;animation:povRise .8s .40s cubic-bezier(.16,1,.3,1) forwards}
 .pov-block h2{
@@ -576,7 +576,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
   font-size:clamp(15px,1.5vw,22px);line-height:1.36;color:#fff;
 }
-.pc .hl{color:var(--blue-500)}
+.pc .hl{color:#fff}
 
 /* hover lifts the supporting copy into place directly below the title */
 .pc-detail{
