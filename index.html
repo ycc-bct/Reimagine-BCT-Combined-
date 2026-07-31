@@ -148,27 +148,49 @@ p,.why-card-copy{text-wrap:pretty}
 .nav-locale .chev{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.65}
 
 /* ============ HERO ============ */
-/* one section: headline and the point cards all sit together, height fits content */
+/* stage laid out to the Figma frame (1462 x 1237): title row, point-of-view
+   statement, and two photo cards placed on a shared column grid */
 .hero{position:relative}
 .hero-stage{
   position:relative;
-  padding:118px var(--pad-x) clamp(40px,4vw,56px);
+  height:clamp(940px,84.6vw,1237px);
+  padding:0 var(--pad-x);
+  background:var(--bg-base);
   overflow:hidden;
 }
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+/* the video only covers the upper band, then fades into the flat backdrop */
+.hero-video{position:absolute;top:0;left:0;width:100%;height:64.3%;object-fit:cover;z-index:0;pointer-events:none}
 .hero-veil{
-  position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(6,8,16,.62) 0%,rgba(6,8,16,.30) 42%,rgba(6,8,16,.55) 78%,var(--bg-base) 100%);
+  position:absolute;top:0;left:0;right:0;height:64.3%;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,8,16,.58) 0%,rgba(6,8,16,.18) 34%,rgba(6,8,16,.55) 74%,var(--bg-base) 100%);
 }
-/* faint column rules, echoing the section grid below */
-.hero-rules{position:absolute;inset:0;z-index:1;pointer-events:none;display:flex;justify-content:space-evenly;opacity:.5}
-.hero-rules i{width:1px;background:rgba(165,165,165,.16)}
-.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:start;will-change:transform,opacity}
+/* column rules */
+.hero-rules{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-rules i{position:absolute;width:1px;bottom:0;background:rgba(165,165,165,.5);opacity:.5}
+.hero-rules i:nth-child(1){left:42.1%;top:20.9%}
+.hero-rules i:nth-child(2){left:55.7%;top:20.9%}
+.hero-rules i:nth-child(3){left:73.8%;top:20.9%}
+.hero-rules i:nth-child(4){left:91.9%;top:20.9%}
+.hero-rules i:nth-child(5){left:5.95%;top:60.5%}
+.hero-rules i:nth-child(6){left:24%;top:74.7%}
+.hero-inner{
+  position:absolute;left:var(--pad-x);right:var(--pad-x);top:15.3%;z-index:2;
+  display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:start;
+}
+/* point-of-view statement, sitting under the headline on the left */
+.pov-block{position:absolute;left:var(--pad-x);top:45.2%;z-index:2;max-width:50%}
+.pov-block .eyebrow{color:#1294D7;font-weight:700}
+.pov-block h2{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(24px,2.74vw,40px);line-height:1.4;letter-spacing:-.01em;
+  color:var(--text-display);margin-top:12px;
+}
+.pov-block h2 .hl{color:var(--blue-500)}
 .hero-h1{
   font-family:var(--font-display);
   font-weight:800;
-  font-size:clamp(30px,4vw,58px);
-  line-height:1.1;
+  font-size:clamp(30px,4.17vw,61px);
+  line-height:1.25;
   letter-spacing:-.02em;
   text-transform:none;
   color:var(--text-display);
@@ -189,7 +211,7 @@ p,.why-card-copy{text-wrap:pretty}
 .hero-side{padding-bottom:10px;padding-left:clamp(20px,4vw,64px)}
 .hero-side .bar{width:44px;height:4px;background:var(--blue-500);margin-bottom:26px}
 .hero-side h2{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
-.hero-side p{color:var(--text-mid);font-size:14.5px;margin-bottom:28px;max-width:38ch}
+.hero-side p{color:#E1E1E1;font-size:16px;line-height:1.5;margin-bottom:28px;max-width:340px}
 .hero-tags{
   position:absolute;left:0;right:0;bottom:40px;z-index:2;
   display:flex;overflow:hidden;
@@ -445,65 +467,50 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   max-width:64ch;margin:0 auto 64px;
 }
 
-/* ============ HERO POINT CARDS (in-flow staggered grid, zoom in on load) ============ */
-.hero-cards{
-  position:relative;z-index:3;
-  display:grid;grid-template-columns:repeat(12,1fr);
-  gap:clamp(14px,1.5vw,20px);
-  margin-top:clamp(28px,3.2vw,44px);
-  max-width:1150px;
-}
+/* ============ HERO POINT CARDS (placed to the frame, sized off stage height) ============ */
+.hero-cards{position:absolute;inset:0;z-index:2;pointer-events:none}
 .pc{
-  position:relative;overflow:hidden;
-  background:#0F2E4B;border:1px solid rgba(255,255,255,.10);
+  position:absolute;overflow:hidden;pointer-events:auto;
+  height:31.9%;aspect-ratio:313.65/395.02;
+  background:#115080;
   transform-origin:center center;
   opacity:0;animation:pcZoom .8s cubic-bezier(.16,1,.3,1) forwards;
 }
-@keyframes pcZoom{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes pcZoom{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
 .pc-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
-.pc-veil{position:absolute;inset:0}
-.pc-body{position:relative;z-index:4;padding:clamp(18px,2.1vw,30px)}
-.pc h2,.pc h3{
-  font-family:var(--font-display);font-weight:700;letter-spacing:-.015em;
-  line-height:1.2;color:var(--text-display);
+.pc-veil{position:absolute;inset:0;background:linear-gradient(180deg,#091323 20.04%,rgba(35,74,137,0) 95.97%)}
+.pc-body{position:relative;z-index:4;padding:9.2% 7.5%}
+.pc h3{
+  font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
+  font-size:clamp(15px,1.5vw,22px);line-height:1.36;color:#fff;
 }
-.pc h2{font-size:clamp(16px,1.45vw,25px)}
-.pc h3{font-size:clamp(14px,1.15vw,18px)}
 .pc .hl{color:var(--blue-500)}
 
 /* hover reveals the supporting copy */
 .pc-detail{
   position:absolute;inset:0;z-index:3;
   display:flex;align-items:flex-end;
-  padding:clamp(18px,2.1vw,30px);
-  background:linear-gradient(180deg,rgba(9,32,53,.12) 0%,rgba(9,32,53,.90) 52%,rgba(9,32,53,.97) 100%);
+  padding:7.5%;
+  background:linear-gradient(180deg,rgba(9,19,35,.15) 0%,rgba(9,19,35,.92) 52%,rgba(9,19,35,.97) 100%);
   opacity:0;transition:opacity .35s ease;
 }
 .pc:hover .pc-detail,.pc:focus-within .pc-detail{opacity:1}
 .pc-detail p{color:rgba(255,255,255,.90);font-size:clamp(12px,1.02vw,14.5px);line-height:1.6}
 
-/* 1 — wide card: photo right, copy left */
-.pc-1{grid-column:1/7;grid-row:1;aspect-ratio:755/395;animation-delay:.45s}
-.pc-1 .pc-photo{background-image:url('pov-card-particles.jpg');background-position:right center}
-.pc-1 .pc-veil{background:linear-gradient(90deg,#0F2E4B 0%,rgba(15,46,75,.94) 40%,rgba(15,46,75,.35) 74%,rgba(15,46,75,0) 100%)}
-.pc-1 .pc-body{display:flex;align-items:center;height:100%;max-width:74%}
-
-/* 2 — tall card on the right, spanning both rows */
-.pc-2{grid-column:9/12;grid-row:1/3;aspect-ratio:314/396;align-self:start;margin-top:clamp(36px,4.2vw,60px);animation-delay:.6s}
-.pc-2 .pc-photo{top:30%;background-image:url('pov-card-meeting.jpg');background-position:center 45%}
-.pc-2 .pc-veil{background:linear-gradient(180deg,#0F2E4B 0%,#0F2E4B 26%,rgba(15,46,75,.55) 40%,rgba(15,46,75,0) 62%)}
-
-/* 3 — offset below the wide card */
-.pc-3{grid-column:4/7;grid-row:2;aspect-ratio:314/287;animation-delay:.75s}
-.pc-3 .pc-photo{top:38%;background-image:url('pov-card-particles.jpg');background-position:center}
-.pc-3 .pc-veil{background:linear-gradient(180deg,#0F2E4B 0%,#0F2E4B 34%,rgba(15,46,75,.5) 50%,rgba(15,46,75,0) 74%)}
+.pc-2{left:65.5%;top:48.3%;animation-delay:.5s}
+.pc-2 .pc-photo{background-image:url('pov-card-meeting.jpg');background-position:center 40%}
+.pc-3{left:29.1%;top:64.3%;animation-delay:.65s}
+.pc-3 .pc-photo{background-image:url('pov-card-particles.jpg');transform:scaleX(-1)}
 
 @media(max-width:900px){
-  .hero-stage{padding-top:130px}
-  .hero-cards{grid-template-columns:1fr;gap:16px}
-  .pc{grid-column:1/-1!important;grid-row:auto!important;margin-top:0!important;aspect-ratio:16/10}
-  .pc-1 .pc-body{max-width:none}
+  .hero-stage{height:auto;padding:130px var(--pad-x) 56px}
+  .hero-video{height:100%}
+  .hero-veil{height:100%}
   .hero-rules{display:none}
+  .hero-inner{position:static;grid-template-columns:1fr;gap:36px}
+  .pov-block{position:static;max-width:none;margin-top:56px}
+  .hero-cards{position:static;display:grid;gap:16px;margin-top:32px}
+  .pc{position:static;height:auto;width:100%;aspect-ratio:16/10}
 }
 @media(prefers-reduced-motion:reduce){
   .pc{opacity:1;animation:none}
@@ -563,7 +570,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 }
 
 /* ============ PRODUCTS (left rail: title+categories / right: checkerboard card grid) ============ */
-#products{min-height:100dvh;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-block:0}
+#products{display:flex;flex-direction:column;justify-content:center;padding-block:clamp(28px,3.4vw,48px)}
 .products{background:var(--bg-base)}
 .pcat-layout{
   display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,5vw,84px);
@@ -867,15 +874,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       </div>
     </div>
 
-    <div class="hero-cards">
-      <article class="pc pc-1" data-i="0">
-        <div class="pc-photo" aria-hidden="true"></div>
-        <div class="pc-veil" aria-hidden="true"></div>
-        <div class="pc-body">
-          <h2>The future belongs to <span class="hl">enterprises</span><br>that operationalize AI</h2>
-        </div>
-      </article>
+    <div class="pov-block">
+      <div class="eyebrow">Our point of view</div>
+      <h2>The future belongs to <span class="hl">enterprises</span> that operationalize AI</h2>
+    </div>
 
+    <div class="hero-cards">
       <article class="pc pc-2" data-i="1">
         <div class="pc-photo" aria-hidden="true"></div>
         <div class="pc-veil" aria-hidden="true"></div>
