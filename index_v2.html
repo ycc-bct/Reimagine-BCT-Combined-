@@ -498,64 +498,55 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 }
 .th-pt p{color:var(--text-mid);font-size:14.5px;line-height:1.7}
 
-/* ============ CAPABILITY CARDS (What we do) — staggered ============ */
-.rules{background:var(--bg-surface);position:relative;isolation:isolate}
-/* drifting particle field — the staircase leaves a lot of open ground, and
-   this gives it depth without competing with the copy. Painted by JS into a
-   canvas; masked at the top and bottom so it never touches the section rules. */
-.pfx{
-  position:absolute;inset:0;display:block;width:100%;height:100%;
-  z-index:0;pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);
-}
-/* content rides above the field */
-.rules .section-head,.rules .pstair{position:relative;z-index:1}
+/* ============ CAPABILITY COLUMNS (What we do) — centred ============ */
+.rules{background:var(--bg-surface)}
 .rules .section-head{
-  display:grid;grid-template-columns:repeat(12,1fr);
-  column-gap:clamp(16px,2vw,32px);align-items:end;
-  margin-bottom:120px;          /* scoped — other sections keep the shared 56px */
-}
-.rules .section-head>div:first-child{grid-column:1/7}
-/* a staircase, not a row: each step moves right and drops further down */
-/* one grid row per step: the descent comes from the rows, so two steps can
-   never overlap however long their copy runs. The old version stacked all
-   three in row 1 and pushed them down with margins, which overlapped both
-   ways once the text wrapped. */
-.pstair{
-  display:grid;grid-template-columns:repeat(12,1fr);
-  column-gap:clamp(16px,2vw,32px);
-}
-.pstep{display:flex;align-items:flex-start;gap:clamp(16px,1.8vw,26px)}
-/* three columns each, stepping right with one empty column between them:
-   1-3, then 5-7, then 9-11. One grid row apiece, so however long the copy
-   runs two steps can never overlap. */
-.pstep:nth-child(1){grid-column:1/4;grid-row:1}
-.pstep:nth-child(2){grid-column:5/8;grid-row:2}
-.pstep:nth-child(3){grid-column:9/12;grid-row:3}
-/* 1440 and under, the 3-column measure gets too tight, so each step takes 4 —
-   the ranges become contiguous and the spare column is given back to the copy.
-   Must sit above the 1080 rule below, or it would win there too. */
-@media (max-width:1440px){
-  .pstep:nth-child(1){grid-column:1/5}
-  .pstep:nth-child(2){grid-column:5/9}
-  .pstep:nth-child(3){grid-column:9/13}
+  display:block;text-align:center;
+  margin:0 0 clamp(56px,6vw,88px);
 }
 
-.pstep-icon{flex:none;line-height:0}
-.pstep-icon svg{
-  display:block;width:clamp(54px,6vw,84px);height:auto;
-  fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+/* three equal columns, flush at the top — no stagger, no offsets */
+.pstair{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  /* stretch, so all three fills are the same height whatever the copy does */
+  column-gap:clamp(14px,1.4vw,22px);align-items:stretch;
 }
-/* two-tone: white carries the form, blue picks out one part of it */
+/* stack inside each column: icon, title, copy — all centred.
+   Padding is symmetric so the centred content sits dead centre of the card;
+   a one-sided padding would shift the whole stack off the card's axis. */
+.pstep{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:clamp(14px,1.3vw,20px);
+  padding:clamp(34px,3.4vw,52px) clamp(20px,2.2vw,38px) clamp(40px,4vw,60px);
+  /* a fill instead of a rule: the blue gathers toward the foot of the card,
+     so the three read as separate blocks without any line work */
+  background:
+    linear-gradient(180deg,
+      rgba(0,146,215,0)    0%,
+      rgba(0,146,215,.05) 42%,
+      rgba(0,146,215,.20) 100%),
+    var(--bg-card);
+}
+
+/* the icons are small scenes rather than single glyphs, so they need width
+   to breathe — a wide box with the composition centred inside it */
+.pstep-icon{line-height:0;width:100%;display:flex;justify-content:center}
+.pstep-icon svg{
+  display:block;width:100%;max-width:clamp(190px,18vw,248px);height:auto;
+  fill:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;
+}
+/* three depths: a ghost field sets the scene, white carries the form, blue
+   picks out the one element the copy is actually about */
+.pstep-icon .i-f{stroke:var(--text-hi);opacity:.2}
 .pstep-icon .i-w{stroke:var(--text-hi)}
-.pstep-icon .i-b{stroke:var(--blue-500)}
-.pstep-txt{min-width:0;padding-top:4px}
+.pstep-icon .i-b{stroke:var(--blue-500);stroke-width:1.2}
+.pstep-icon .i-bd{fill:var(--blue-500);stroke:none}
+.pstep-txt{min-width:0;display:flex;flex-direction:column;align-items:center;gap:12px}
 .pstep-txt h3{
   font-family:var(--font-display);font-weight:700;font-size:var(--fs-h3);
-  letter-spacing:-.01em;color:var(--text-display);margin-bottom:10px;
+  letter-spacing:-.01em;color:var(--text-display);
 }
-.pstep-txt p{color:var(--text-mid);font-size:14.5px;line-height:1.7;max-width:32ch}
+.pstep-txt p{color:var(--text-mid);font-size:14.5px;line-height:1.7;max-width:34ch}
 
 /* ============ PRODUCTS (categorized, dark squared cards, GCC-style) ============ */
 .products{background:var(--bg-base)}
@@ -684,11 +675,15 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 /* 1440 canvas: two 634px columns with a 28px gutter (634+28+634 = 1296),
    two 356px rows with the same 28px gap, 100px above and below. */
 .gcc.section{background:var(--g2-ink);padding:clamp(64px,7vw,100px) var(--pad-x)}
-.gcc2{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:28px;align-items:start;
-}
-.gcc2-head{grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:30px}
+/* both rows split 7:5 on the site's 12-column grid, so one template serves
+   both. Each row stays its own grid so it sizes to its own copy. Stretch (the
+   default) is load-bearing — it matches the two panels in a row to the taller
+   one instead of letting each size to itself. */
+.gcc2{display:flex;flex-direction:column;gap:28px}
+.gcc2-r{display:grid;grid-template-columns:repeat(12,1fr);gap:28px}
+.gcc2-head,.gcc2-domains{grid-column:span 7}
+.gcc2-stat,.gcc2-cta{grid-column:span 5}
+.gcc2-head{display:flex;flex-direction:column;gap:30px}
 .gcc2-head .eyebrow{font-size:16px;line-height:24px;color:var(--blue-500)}
 .gcc2-title{
   font-family:var(--font-display);font-weight:600;
@@ -696,58 +691,76 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   color:#fff;
 }
 
-/* panels all share the same box — a fixed height, not a minimum, so the
-   illustration can't push the CTA panel taller than its neighbour */
+/* A floor, not a fixed height. The panels used to be pinned to an exact
+   height so the illustration couldn't push the CTA panel past its neighbour,
+   but the art is absolutely positioned now and can't push anything — and a
+   vw-driven height fights the copy, which wraps to more lines as the panel
+   narrows, so the box shrank while the content grew and the rows spilled out.
+   The grid row now sizes to the tallest panel and stretch matches the others,
+   so overflow is structurally impossible. */
 .gcc2-stat,.gcc2-domains,.gcc2-cta{
-  height:clamp(268px,24.7vw,356px);
-  padding:40px;
+  min-height:clamp(268px,21.1vw,304px);
 }
-.gcc2-stat{grid-column:2;grid-row:1;background:var(--blue-500);display:flex;flex-direction:column}
+/* the domains panel is excluded — its padding lives on each row instead, so
+   the dividers can run the full width of the panel */
+.gcc2-stat,.gcc2-cta{padding:24px}
+.gcc2-stat{background:var(--blue-500);display:flex;flex-direction:column}
 .gcc2-fig{font-family:var(--font-display);font-weight:600;font-size:clamp(36px,3.6vw,52px);line-height:1;color:#fff}
 .gcc2-figlabel{
   margin-top:16px;font-weight:600;font-size:12px;line-height:1;
   letter-spacing:.1em;text-transform:uppercase;color:#fff;opacity:.8;
 }
+/* the 80% is carried by the colour, not by opacity — opacity on the paragraph
+   would compound onto the product name and there would be no way to bring it
+   back to full white */
 .gcc2-lede{
-  margin-top:auto;font-weight:600;font-size:clamp(14px,1.1vw,16px);line-height:1.7;color:#fff;
+  margin-top:auto;font-weight:500;font-size:clamp(14px,1.1vw,16px);line-height:1.7;
+  color:rgba(255,255,255,.8);
 }
+.gcc2-lede strong{font-weight:700;color:#fff}
 
-.gcc2-domains{grid-column:1;grid-row:2;background:var(--g2-indigo);display:flex;flex-direction:column;gap:40px}
-.gcc2-row{display:flex;align-items:flex-start;gap:clamp(20px,2.8vw,40px)}
-/* the Figma's white 48px square — the original domain icon sits inside it */
-.gcc2-icon{
-  flex:none;width:48px;height:48px;background:#fff;
-  display:flex;align-items:center;justify-content:center;
+/* Figma: no panel fill — the rules sit straight on the section's dark ground,
+   so the copy and hairlines go white and the rows lose their side padding,
+   which lets each rule run the full 7 columns. */
+.gcc2-domains{background:none;display:flex;flex-direction:column;padding:0;gap:0}
+.gcc2-row{
+  display:flex;flex-direction:row;align-items:flex-start;gap:20px;
+  padding:24px 0;
+  /* 106 is the Figma row height and the content lands on it exactly (24 + 58
+     + 24); a floor rather than a fixed height so wrapped copy can't spill */
+  min-height:106px;
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
-.gcc2-icon svg{width:24px;height:24px;fill:none;stroke:var(--g2-indigo);stroke-width:1.5}
+/* the last rule would otherwise close the block off like a box */
+.gcc2-row:last-child{border-bottom:0}
+/* the numeral replaces the icon: same 21px cap height as the title beside it,
+   so the two sit on one line without any nudging */
+.gcc2-num{
+  flex:none;width:30px;
+  font-family:var(--font-display);font-weight:600;font-size:21px;line-height:1;
+  color:var(--blue-500);
+}
+.gcc2-txt{min-width:0;flex:1;display:flex;flex-direction:column;gap:10px}
 .gcc2-txt h3{
-  font-family:var(--font-display);font-weight:600;font-size:clamp(17px,1.5vw,21px);
-  line-height:1;color:#fff;margin-bottom:10px;
+  font-family:var(--font-display);font-weight:600;font-size:21px;
+  line-height:1;color:var(--blue-500);
 }
-.gcc2-txt p{font-weight:500;font-size:12px;line-height:1.7;color:#fff;opacity:.8}
+.gcc2-txt p{font-weight:500;font-size:16px;line-height:1.7;color:rgba(255,255,255,.7)}
 
 .gcc2-cta{
-  --ctapad:40px;--ctabtn:48px;
-  grid-column:2;grid-row:2;background:#fff;
-  display:flex;flex-direction:column;justify-content:flex-end;
+  background:#fff;
+  display:flex;flex-direction:column;justify-content:center;
   position:relative;overflow:hidden;
 }
-/* the illustration is the panel's background — full bleed behind the whole
-   box, then masked out toward the bottom so it dissolves into the panel's
-   own white rather than ending on a hard edge. The mask is fully clear by
-   one padding + one button height above the floor, so the button always
-   sits on clean white however the panel is sized. */
+/* the illustration is the panel — full bleed, unmasked, with the button
+   sitting straight on top of it */
 .gcc2-art{position:absolute;inset:0;margin:0;z-index:0}
-.gcc2-art img{
-  width:100%;height:100%;display:block;object-fit:cover;
-  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 34%,rgba(0,0,0,.45) 62%,transparent calc(100% - var(--ctapad) - var(--ctabtn)));
-  mask-image:linear-gradient(180deg,#000 0,#000 34%,rgba(0,0,0,.45) 62%,transparent calc(100% - var(--ctapad) - var(--ctabtn)));
-}
+.gcc2-art img{width:100%;height:100%;display:block;object-fit:cover}
 .gcc2-btn{
   position:relative;z-index:1;
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:100%;height:48px;padding:0 24px;
-  background:var(--blue-500);color:var(--g2-ink);
+  background:#fff;color:var(--g2-ink);
   font-family:var(--font-body);font-weight:600;font-size:16px;line-height:1;
   text-decoration:none;
   transition:background .2s,box-shadow .2s;
@@ -757,7 +770,9 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
   transition:transform .25s ease;
 }
-.gcc2-btn:hover{background:var(--blue-300);box-shadow:0 0 40px var(--glow)}
+/* the button is now the only light element on the image, so it lights up
+   rather than changing colour */
+.gcc2-btn:hover{box-shadow:0 0 40px rgba(255,255,255,.4)}
 .gcc2-btn:hover svg{transform:translateX(4px)}
 
 /* ============ WHY BCT (bordered grid) ============ */
@@ -847,23 +862,20 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   .th-pt-a,.th-pt-b{margin-top:34px}
   .th-pt{align-self:auto}
 
-  /* What we do — drop the stagger, keep the numbering */
-  .rules .section-head{display:block}
-  .rules .section-head>div:first-child{grid-column:auto}
-  /* stacked: the staircase offsets would just be dead space in one column */
-  .pstair{grid-template-columns:1fr;row-gap:clamp(30px,5vw,44px)}
-  .pstep:nth-child(1),.pstep:nth-child(2),.pstep:nth-child(3){
-    grid-column:1/-1;grid-row:auto;margin-top:0;
-  }
+  /* What we do — one column; the fills stack with the same gap */
+  .pstair{grid-template-columns:1fr;row-gap:clamp(14px,1.4vw,22px)}
 
 
-  /* GCC — one column, panels in source order */
-  .gcc2{grid-template-columns:1fr;gap:20px}
-  .gcc2-head,.gcc2-stat,.gcc2-domains,.gcc2-cta{grid-column:1;grid-row:auto}
-  .gcc2-stat,.gcc2-domains,.gcc2-cta{height:auto;min-height:0;padding:28px}
-  /* the art is out of flow now, so the CTA panel needs its own floor —
+  /* GCC — one column, panels in source order; both rows collapse alike.
+     The spans have to be cleared too, or a 7-span would overflow a 1-col grid. */
+  .gcc2{gap:20px}
+  .gcc2-r{grid-template-columns:1fr;gap:20px}
+  .gcc2-head,.gcc2-stat,.gcc2-domains,.gcc2-cta{grid-column:auto}
+  .gcc2-stat,.gcc2-domains,.gcc2-cta{min-height:0}
+  /* padding is a flat 24 everywhere now, so there is nothing to override here */
+  /* the art is out of flow, so the CTA panel needs its own floor —
      without one it would collapse to just the button */
-  .gcc2-cta{--ctapad:28px;min-height:280px}
+  .gcc2-cta{min-height:280px}
 }
 @media (max-width:720px){
   .nav-links{display:none}
@@ -959,7 +971,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
 
 <!-- ================= WHAT WE DO (capability cards) ================= -->
 <section class="rules section" id="pillars">
-  <canvas class="pfx" aria-hidden="true"></canvas>
   <div class="section-head rv">
     <div>
       <div class="eyebrow">What we do</div>
@@ -968,7 +979,27 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
   </div>
     <div class="pstair rv">
       <article class="pstep">
-        <div class="pstep-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><g class="i-w"><circle cx="7" cy="24" r="4.6"/><circle cx="41" cy="24" r="4.6"/><path d="M11.6 24h5.2M31.2 24h5.2"/></g><g class="i-b"><path d="M24 14.6l7.2 9.4-7.2 9.4-7.2-9.4z"/></g></svg></div>
+        <!-- a delivery line: ghost rails above and below, the live rail through
+             the middle, and the blue node where the work actually happens -->
+        <div class="pstep-icon"><svg viewBox="0 0 240 112" aria-hidden="true">
+          <g class="i-f">
+            <path d="M32 24h176M32 88h176" stroke-dasharray="2 7"/>
+            <circle cx="62" cy="24" r="4.5"/><circle cx="120" cy="24" r="4.5"/><circle cx="178" cy="24" r="4.5"/>
+            <circle cx="62" cy="88" r="4.5"/><circle cx="120" cy="88" r="4.5"/><circle cx="178" cy="88" r="4.5"/>
+            <!-- feeders run all the way to the live rail; the middle pair stop
+                 on the diamond's vertices so they meet it instead of crossing it -->
+            <path d="M62 29V56M178 29V56M62 83V56M178 83V56"/>
+            <path d="M120 29V37M120 83V75"/>
+          </g>
+          <g class="i-w">
+            <circle cx="26" cy="56" r="8"/><circle cx="214" cy="56" r="8"/>
+            <path d="M34 56h48M158 56h48"/>
+            <circle cx="88" cy="56" r="6"/><circle cx="152" cy="56" r="6"/>
+            <path d="M94 56h8M138 56h8"/>
+          </g>
+          <g class="i-b"><path d="M120 38l18 18-18 18-18-18z"/></g>
+          <g class="i-bd"><circle cx="26" cy="56" r="2.4"/><circle cx="214" cy="56" r="2.4"/></g>
+        </svg></div>
         <div class="pstep-txt">
           <h3>End-to-end capability</h3>
           <p>Strategy, engineering, and operations across cloud, data, AI, and managed services.</p>
@@ -976,7 +1007,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       </article>
 
       <article class="pstep">
-        <div class="pstep-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><g class="i-w"><path d="M4 41h40"/><path d="M9 41V23h9v18"/><path d="M32 41V27h7v14"/><path d="M12 29h3M34.5 32h2"/></g><g class="i-b"><path d="M20 41V11h10v30"/><path d="M23 18h4M23 26h4"/></g></svg></div>
+        <!-- a skyline in three depths: a ghost back row, two mid towers, and
+             the blue one in front standing for the regulated core -->
+        <div class="pstep-icon"><svg viewBox="0 0 240 112" aria-hidden="true">
+          <g class="i-f">
+            <path d="M20 26h200" stroke-dasharray="2 7"/>
+            <path d="M34 94V54h20v40M78 94V44h16v50M146 94V50h22v44M196 94V64h18v30"/>
+            <path d="M40 62h8M40 74h8M84 52h6M84 64h6M152 58h10M152 70h10M201 72h8"/>
+          </g>
+          <g class="i-w">
+            <path d="M16 94h208"/>
+            <path d="M58 94V66h24v28M172 94V60h26v34"/>
+            <path d="M64 74h12M64 84h12M178 68h14M178 79h14"/>
+          </g>
+          <g class="i-b">
+            <path d="M104 94V24h30v70"/>
+            <path d="M111 36h16M111 50h16M111 64h16M111 78h16"/>
+            <path d="M119 24v-9"/>
+          </g>
+          <g class="i-bd"><circle cx="119" cy="13" r="2.4"/></g>
+        </svg></div>
         <div class="pstep-txt">
           <h3>Industries we serve</h3>
           <p>AI-powered, scalable transformation across regulated, mission-critical industries.</p>
@@ -984,7 +1034,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
       </article>
 
       <article class="pstep">
-        <div class="pstep-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><g class="i-w"><circle cx="15" cy="24" r="10"/><circle cx="33" cy="24" r="10"/></g><g class="i-b"><circle cx="24" cy="24" r="10"/></g></svg></div>
+        <!-- the overlap sits inside a wider ecosystem: a ghost orbit of partner
+             nodes, two of them brought forward, the shared ground in blue -->
+        <div class="pstep-icon"><svg viewBox="0 0 240 112" aria-hidden="true">
+          <g class="i-f">
+            <ellipse cx="120" cy="56" rx="104" ry="46" stroke-dasharray="2 7"/>
+            <circle cx="224" cy="56" r="7"/><circle cx="16" cy="56" r="7"/>
+            <circle cx="120" cy="10" r="7"/><circle cx="120" cy="102" r="7"/>
+            <circle cx="47" cy="24" r="6"/><circle cx="193" cy="88" r="6"/>
+          </g>
+          <g class="i-w">
+            <circle cx="100" cy="56" r="24"/><circle cx="140" cy="56" r="24"/>
+            <circle cx="193" cy="24" r="7"/><circle cx="47" cy="88" r="7"/>
+            <path d="M187 29l-24 14M53 83l24-14" stroke-dasharray="2 6"/>
+          </g>
+          <g class="i-b"><circle cx="120" cy="56" r="24"/></g>
+          <g class="i-bd"><circle cx="193" cy="24" r="2.4"/><circle cx="47" cy="88" r="2.4"/></g>
+        </svg></div>
         <div class="pstep-txt">
           <h3>Partnerships that work</h3>
           <p>Deep alliances with leading technology partners that unify your ecosystem.</p>
@@ -996,6 +1062,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
 <!-- ================= GCC CAPABILITY ================= -->
 <section class="gcc section" id="gcc">
   <div class="gcc2">
+   <div class="gcc2-r gcc2-r1">
     <div class="gcc2-head rv">
       <div class="eyebrow">GCC Capability</div>
       <h2 class="gcc2-title">BCT's AI-powered GCC capability</h2>
@@ -1004,32 +1071,36 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
     <div class="gcc2-stat rv">
       <div class="gcc2-fig">20–25%</div>
       <div class="gcc2-figlabel">Reduction in manual effort</div>
-      <p class="gcc2-lede">BCT embeds AI into your Global Capability Center from day one. Powered by AigeniX™, our agentic AI platform automates the domains alongside, accelerating operations, agility, and time-to-market.</p>
+      <p class="gcc2-lede">BCT embeds AI into your Global Capability Center from day one. Powered by <strong>AigeniX&trade;</strong>, our agentic AI platform automates the domains alongside, accelerating operations, agility, and time-to-market.</p>
     </div>
 
+   </div>
+
+   <div class="gcc2-r gcc2-r2">
     <div class="gcc2-domains rv">
       <div class="gcc2-row">
-        <div class="gcc2-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-4 3-6.5 7-6.5S19 16 19 20"/></svg></div>
+        <span class="gcc2-num" aria-hidden="true">01</span>
         <div class="gcc2-txt"><h3>HR Operations</h3><p>Onboarding, queries, and workforce requests handled end-to-end by agentic AI.</p></div>
       </div>
       <div class="gcc2-row">
-        <div class="gcc2-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M9 10v10"/></svg></div>
+        <span class="gcc2-num" aria-hidden="true">02</span>
         <div class="gcc2-txt"><h3>Finance Operations</h3><p>Invoicing, reconciliation, and reporting streamlined with continuous accuracy.</p></div>
       </div>
       <div class="gcc2-row">
-        <div class="gcc2-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v6c0 4.5-3.4 7.5-8 8-4.6-.5-8-3.5-8-8V7l8-4Z"/></svg></div>
+        <span class="gcc2-num" aria-hidden="true">03</span>
         <div class="gcc2-txt"><h3>Knowledge Operations</h3><p>Institutional knowledge captured, structured, and instantly retrievable.</p></div>
       </div>
     </div>
 
     <div class="gcc2-cta rv">
       <figure class="gcc2-art" aria-hidden="true">
-        <img src="illo-assess.jpg" alt="" width="1400" height="594" loading="lazy" decoding="async">
+        <img src="gcc-wave.jpg" alt="" width="1376" height="768" loading="lazy" decoding="async">
       </figure>
       <a class="gcc2-btn" href="#">Take a free GCC assessment
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
       </a>
     </div>
+   </div>
   </div>
 </section>
 
@@ -1289,111 +1360,6 @@ const statIO = new IntersectionObserver(es => es.forEach(e => {
   })(t0);
 }), {threshold:.5});
 document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(el));
-
-/* ---------- Pillars: drifting particle field ---------- */
-(function(){
-  const sec = document.getElementById('pillars');
-  const cv  = sec && sec.querySelector('.pfx');
-  if (!cv || !cv.getContext) return;                 // no canvas: section just stays flat
-  const ctx = cv.getContext('2d');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-
-  /* one pre-rendered soft dot per tint, then scaled per particle. Far cheaper
-     than ctx.shadowBlur, which re-blurs on every single draw. */
-  const sprite = rgb => {
-    const s = 64, c = document.createElement('canvas');
-    c.width = c.height = s;
-    const cc = c.getContext('2d');
-    const g = cc.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
-    g.addColorStop(0,  `rgba(${rgb},1)`);
-    g.addColorStop(.3, `rgba(${rgb},.42)`);
-    g.addColorStop(1,  `rgba(${rgb},0)`);
-    cc.fillStyle = g;
-    cc.fillRect(0, 0, s, s);
-    return c;
-  };
-  const TINT = [sprite('245,248,252'), sprite('0,146,215'), sprite('95,190,234')];
-
-  let dpr = 1, W = 0, H = 0, ps = [], raf = 0, onscreen = false;
-
-  const build = () => {
-    /* count follows the area so a tall mobile column isn't as dense as a
-       1440 band, with a floor and a ceiling so it never looks bare or busy */
-    const n = Math.round(Math.min(110, Math.max(26, (W * H) / 17000)));
-    ps = Array.from({length:n}, () => {
-      const depth = Math.random();          // 0 = near, 1 = far
-      return {
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: 1.2 + (1 - depth) * (1 - depth) * 6.5,
-        a: .09 + (1 - depth) * .26,
-        t: Math.random() < .34 ? (Math.random() < .5 ? 1 : 2) : 0,
-        vx: (Math.random() - .5) * (.05 + (1 - depth) * .09),
-        vy: -(.025 + (1 - depth) * .075)    // a slow upward drift, like motes
-      };
-    });
-  };
-
-  const draw = () => {
-    ctx.clearRect(0, 0, W, H);
-    ctx.globalCompositeOperation = 'lighter';   // overlaps brighten, as light does
-    for (const p of ps){
-      const d = p.r * 4;
-      ctx.globalAlpha = p.a;
-      ctx.drawImage(TINT[p.t], p.x - d/2, p.y - d/2, d, d);
-    }
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = 'source-over';
-  };
-
-  const resize = () => {
-    const w = sec.clientWidth, h = sec.clientHeight;
-    /* bail on redundant callbacks — both observers below can report the same
-       size, and rebuilding would re-scatter the field for no reason */
-    if (!w || !h || (w === W && h === H)) return;
-    W = w; H = h;
-    dpr = Math.min(2, devicePixelRatio || 1);
-    cv.width  = Math.round(W * dpr);
-    cv.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    build();
-    draw();
-  };
-
-  const step = () => {
-    for (const p of ps){
-      p.x += p.vx; p.y += p.vy;
-      /* wrap rather than respawn at the edge, so the field never thins out */
-      if (p.y < -24){ p.y = H + 24; p.x = Math.random() * W; }
-      if (p.x < -24) p.x = W + 24; else if (p.x > W + 24) p.x = -24;
-    }
-    draw();
-    raf = requestAnimationFrame(step);
-  };
-
-  const start = () => { if (!raf && !reduce.matches && !document.hidden) raf = requestAnimationFrame(step); };
-  const stop  = () => { if (raf){ cancelAnimationFrame(raf); raf = 0; } };
-
-  /* ResizeObserver catches the section growing as text reflows; the resize
-     event is the backstop, since RO delivery rides the rendering lifecycle and
-     stalls while the tab is throttled. The guard above makes the overlap free. */
-  if (window.ResizeObserver) new ResizeObserver(resize).observe(sec);
-  addEventListener('resize', resize, {passive:true});
-
-  /* only burn frames while the section is actually on screen */
-  if (window.IntersectionObserver){
-    new IntersectionObserver(es => {
-      onscreen = es[0].isIntersecting;
-      onscreen ? start() : stop();
-    }, {rootMargin:'150px'}).observe(sec);
-  } else { onscreen = true; start(); }
-
-  document.addEventListener('visibilitychange', () => document.hidden ? stop() : (onscreen && start()));
-  /* reduced motion keeps the field, just frozen — it is texture, not information */
-  reduce.addEventListener?.('change', () => reduce.matches ? (stop(), draw()) : (onscreen && start()));
-
-  resize();
-})();
 
 /* ---------- Why BCT carousel ---------- */
 (function(){
