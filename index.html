@@ -503,56 +503,48 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   background:radial-gradient(ellipse at center,transparent 30%,rgba(6,8,16,.34) 68%,rgba(6,8,16,.86) 100%);
   pointer-events:none;
 }
-.who-b-top{
-  position:relative;z-index:3;max-width:1320px;margin:0 auto;
-}
 .who-b-copy{
-  position:relative;z-index:3;max-width:1320px;margin:clamp(54px,8vw,110px) auto 0;
+  position:absolute;z-index:3;
+  left:max(var(--pad-x),calc((100% - 1320px)/2));right:48%;
+  bottom:var(--section-pad-y);
 }
+.who-b-copy .eyebrow{margin-bottom:18px}
 .who-b-copy .section-title{
-  max-width:15ch;margin:0 0 clamp(34px,5vw,64px);
+  max-width:15ch;margin:0 0 24px;
 }
 .who-b-story{
   max-width:64ch;color:rgba(245,248,252,.68);
   font-size:var(--fs-content);line-height:1.7;
 }
 .who-number-carousel{
-  position:absolute;z-index:2;right:clamp(28px,5vw,72px);top:clamp(76px,8vw,112px);
-  width:clamp(250px,34vw,500px);height:clamp(210px,31vw,440px);
-  overflow:hidden;outline:none;touch-action:pan-y;
+  position:absolute;z-index:2;right:clamp(36px,6vw,84px);top:clamp(76px,8vw,112px);
+  width:min(54vw,780px);height:clamp(240px,32vw,470px);
+  overflow:visible;outline:none;touch-action:pan-y;
 }
 .who-number-track{
-  height:100%;transition:transform .55s cubic-bezier(.16,1,.3,1);
-  will-change:transform;
+  position:relative;height:100%;
 }
 .who-number-slide{
-  height:100%;display:flex;justify-content:flex-end;align-items:flex-start;
-  font-family:var(--font-display);font-size:clamp(11rem,27vw,25rem);
+  position:absolute;inset:0;height:100%;
+  display:flex;justify-content:flex-end;align-items:flex-start;padding-right:.08em;
+  font-family:var(--font-display);font-size:clamp(10rem,24vw,22rem);
   font-weight:800;line-height:.72;letter-spacing:-.11em;white-space:nowrap;
   color:#080B13;-webkit-text-stroke:1px rgba(215,223,233,.08);
   text-shadow:0 0 20px rgba(0,146,215,.7),0 0 72px rgba(0,146,215,.5),0 0 150px rgba(0,99,149,.34);
-  user-select:none;
+  user-select:none;opacity:0;transform:translateY(28%);
+  transition:opacity .28s ease,transform .55s cubic-bezier(.16,1,.3,1);
 }
-.who-number-nav{
-  position:absolute;z-index:4;right:clamp(24px,3.8vw,56px);top:50%;
-  display:grid;gap:12px;transform:translateY(-50%);
-}
-.who-number-nav button{
-  width:8px;height:8px;padding:0;border:1px solid rgba(245,248,252,.48);
-  border-radius:50%;background:transparent;cursor:pointer;
-  transition:background .2s ease,transform .25s cubic-bezier(.25,1,.5,1);
-}
-.who-number-nav button[aria-current="true"]{
-  background:var(--blue-500);border-color:var(--blue-500);transform:scale(1.35);
-}
+.who-number-slide:nth-child(3){font-size:clamp(7.5rem,17vw,15.5rem);letter-spacing:-.08em}
+.who-number-slide.is-before{transform:translateY(-28%)}
+.who-number-slide.is-active{opacity:1;transform:none}
 @media(max-width:780px){
   .who-switch{top:20px}
   .who-b{min-height:760px;padding:80px var(--pad-x) 64px}
-  .who-number-carousel{top:88px;right:var(--pad-x);width:76vw;height:260px}
-  .who-number-slide{font-size:clamp(10rem,58vw,18rem)}
-  .who-number-nav{top:250px;right:var(--pad-x);grid-auto-flow:column}
-  .who-b-copy{margin-top:300px}
-  .who-b-copy .section-title{max-width:13ch;margin-bottom:32px}
+  .who-number-carousel{top:88px;right:var(--pad-x);width:86vw;height:260px}
+  .who-number-slide{font-size:clamp(9rem,54vw,17rem)}
+  .who-number-slide:nth-child(3){font-size:clamp(6.5rem,37vw,12rem)}
+  .who-b-copy{left:var(--pad-x);right:var(--pad-x);bottom:64px}
+  .who-b-copy .section-title{max-width:13ch;margin-bottom:24px}
 }
 
 /* ============ HERO POINT CARDS (placed to the frame, sized off stage height) ============ */
@@ -564,20 +556,20 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
   transform-origin:center center;
   opacity:0;animation:pcZoom .8s cubic-bezier(.16,1,.3,1) forwards;
 }
+.pc::after{
+  content:"";position:absolute;z-index:3;inset:0;
+  background:rgba(3,7,14,.72);opacity:0;
+  transition:opacity .32s ease;
+  pointer-events:none;
+}
+.pc:hover::after,.pc:focus-within::after{opacity:1}
 @keyframes pcZoom{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
 .pc-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
 .pc-veil{position:absolute;inset:0;background:linear-gradient(180deg,#091323 20.04%,rgba(35,74,137,0) 95.97%)}
 .pc-body{
-  position:relative;z-index:4;padding:9.2% 7.5%;isolation:isolate;
+  position:relative;z-index:4;padding:9.2% 7.5%;
   display:flex;flex-direction:column;align-items:flex-start;
 }
-.pc-body::before{
-  content:"";position:absolute;z-index:-1;inset:5.5% 3.5%;
-  background:linear-gradient(180deg,rgba(4,8,15,.9),rgba(4,8,15,.7));
-  opacity:0;transform:translateY(10px);
-  transition:opacity .3s ease,transform .4s cubic-bezier(.16,1,.3,1);
-}
-.pc:hover .pc-body::before,.pc:focus-within .pc-body::before{opacity:1;transform:none}
 .pc h3{
   font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
   font-size:clamp(15px,1.5vw,22px);line-height:1.36;color:#fff;
@@ -611,7 +603,7 @@ footer{border-top:1px solid var(--border);padding:80px 0 0;background:var(--bg-b
 @media(prefers-reduced-motion:reduce){
   .pc{opacity:1;animation:none}
   .pc-detail{transition:none;transform:none}
-  .who-number-track{transition:none}
+  .who-number-slide{transition:none}
   .pov-block .eyebrow,.pov-block h2{opacity:1;animation:none}
 }
 
@@ -1197,9 +1189,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
 
   <div class="who-panel" id="who-panel-b" role="tabpanel" aria-labelledby="who-tab-b" data-who-panel="b" hidden>
     <div class="who-b">
-      <div class="who-b-top">
-        <div class="eyebrow">Who we are</div>
-      </div>
       <div class="who-number-carousel" tabindex="0" role="region" aria-roledescription="carousel" aria-label="BCT company figures">
         <div class="who-number-track">
           <div class="who-number-slide" role="group" aria-label="1 of 3: 27 years">27</div>
@@ -1207,12 +1196,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
           <div class="who-number-slide" role="group" aria-label="3 of 3: 2.2 thousand enterprise clients">2.2K</div>
         </div>
       </div>
-      <div class="who-number-nav" aria-label="Choose company figure">
-        <button type="button" aria-label="Show 27 years" aria-current="true" data-who-number="0"></button>
-        <button type="button" aria-label="Show 50 countries" aria-current="false" data-who-number="1"></button>
-        <button type="button" aria-label="Show 2.2 thousand enterprise clients" aria-current="false" data-who-number="2"></button>
-      </div>
       <div class="who-b-copy">
+        <div class="eyebrow">Who we are</div>
         <h2 class="section-title">A global enterprise transformation partner</h2>
         <p class="who-b-story">Founded in Oman in 1999, BCT serves global enterprises, including several Fortune 500 companies, through its Services, Products, Consulting, Partnerships, and KPO businesses.</p>
       </div>
@@ -1555,14 +1540,16 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
 <script>(function(){
   var carousel=document.querySelector('.who-number-carousel');
   if(!carousel) return;
-  var track=carousel.querySelector('.who-number-track');
+  var surface=carousel.closest('.who-b')||carousel;
   var slides=[].slice.call(carousel.querySelectorAll('.who-number-slide'));
-  var buttons=[].slice.call(document.querySelectorAll('[data-who-number]'));
   var index=0,locked=false,touchStart=0;
   function show(next){
     index=Math.max(0,Math.min(slides.length-1,next));
-    track.style.transform='translateY(-'+(index*100)+'%)';
-    buttons.forEach(function(button,i){button.setAttribute('aria-current',i===index?'true':'false');});
+    slides.forEach(function(slide,i){
+      slide.classList.toggle('is-active',i===index);
+      slide.classList.toggle('is-before',i<index);
+      slide.setAttribute('aria-hidden',i===index?'false':'true');
+    });
   }
   function move(direction){
     var next=index+direction;
@@ -1570,7 +1557,7 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
     show(next);
     return true;
   }
-  carousel.addEventListener('wheel',function(event){
+  surface.addEventListener('wheel',function(event){
     if(locked||Math.abs(event.deltaY)<8) return;
     var changed=move(event.deltaY>0?1:-1);
     if(!changed) return;
@@ -1578,17 +1565,14 @@ document.querySelectorAll('.stat-num[data-count]').forEach(el => statIO.observe(
     locked=true;
     window.setTimeout(function(){locked=false;},560);
   },{passive:false});
-  carousel.addEventListener('touchstart',function(event){touchStart=event.touches[0].clientY;},{passive:true});
-  carousel.addEventListener('touchend',function(event){
+  surface.addEventListener('touchstart',function(event){touchStart=event.touches[0].clientY;},{passive:true});
+  surface.addEventListener('touchend',function(event){
     var delta=touchStart-event.changedTouches[0].clientY;
     if(Math.abs(delta)>32) move(delta>0?1:-1);
   },{passive:true});
   carousel.addEventListener('keydown',function(event){
     if(event.key!=='ArrowDown'&&event.key!=='ArrowUp') return;
     if(move(event.key==='ArrowDown'?1:-1)) event.preventDefault();
-  });
-  buttons.forEach(function(button){
-    button.addEventListener('click',function(){show(Number(button.dataset.whoNumber));carousel.focus();});
   });
   show(0);
 })();</script>
