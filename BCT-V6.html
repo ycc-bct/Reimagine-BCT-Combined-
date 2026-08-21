@@ -361,6 +361,16 @@ html.js .hero.is-pinned{height:calc(100vh + var(--hero-run,0px))}
   background:linear-gradient(180deg,#fff 0%,#fff 55%,#b4c0ff 100%);
   -webkit-background-clip:text;background-clip:text;
   color:transparent;-webkit-text-fill-color:transparent;
+  /* background-clip:text paints the gradient inside the element's box and then
+     cuts it to the glyphs — so any ink OUTSIDE the box gets no paint at all and
+     simply disappears. At line-height 1.2 this line's descenders reach 1.229em,
+     which is 0.029em past the bottom edge, and the tails of the two g's in
+     "Engineering" were being sliced off. Line two never showed it because it is
+     painted with a plain colour, not a clipped background.
+     Pad the box down far enough to cover them — .08em is nearly 3x the overflow
+     and holds at any font-size, since the overflow is a fixed fraction of the em
+     — and take the space straight back in margin so line two does not move. */
+  padding-bottom:.08em;margin-bottom:-.08em;
 }
 
 /* --- support column: x881 w555, so 59.191% in, 40.809% wide --- */
@@ -380,6 +390,58 @@ html.js .hero.is-pinned{height:calc(100vh + var(--hero-run,0px))}
 .pov-eyebrow{float:left;width:17.206%}      /* 234 of the 1360 column */
 .pov-title{font-family:var(--font-display);font-weight:500;font-size:var(--fs-title);
   line-height:1.2;max-width:91.544%}
+
+/* ---- CHARACTER FLICKER ----------------------------------------------------
+   The heading treatment from titangatequity.com, rebuilt. Two animations run
+   at once on nested elements, and because both touch opacity the two curves
+   MULTIPLY — that compounding is what makes the stutter read as an arc rather
+   than a fade:
+
+     per character  a 320ms flicker that also flashes the accent colour at 1%
+                    and again at 40%, back to inherit at 70%. Stagger 28ms.
+     per word       a 260ms opacity blink underneath it. Stagger 39ms.
+
+   --char counts straight through the whole sentence rather than restarting each
+   word, so the stagger sweeps the line left to right without stalling at the
+   spaces; --word restarts, which is what puts a second, slower beat under it.
+
+   The split spans are aria-hidden and the heading carries the sentence as an
+   aria-label, so a screen reader gets one string, not 51 letters.
+
+   Driven by the .in the page's own observer already sets, so it plays on entry,
+   resets on exit and replays — same as every other entrance here. */
+:root{ --arc:var(--blue-200) }                 /* #00C3ED */
+/* Padding out and margin back in: layout-identical, but the colour flash has
+   room either side of a word instead of ending flush on the glyph. */
+.split-word{padding-inline:.2em;margin-inline:-.2em}
+@media (prefers-reduced-motion:no-preference){
+  html.js .reveal.in .split-word{
+    animation:flickerWord .26s cubic-bezier(.215,.61,.355,1) both;
+    animation-delay:calc((var(--word) - 1) * 39ms + .175s + var(--flicker-in,0s));
+  }
+  html.js .reveal.in .split-char{
+    animation:flickerChar .32s cubic-bezier(.215,.61,.355,1) both;
+    animation-delay:calc((var(--char) - 1) * 28ms + .125s + var(--flicker-in,0s));
+  }
+}
+/* Out of frame it is simply the sentence, so the reset has nothing to undo. */
+html.js .reveal:not(.in) .split-word,
+html.js .reveal:not(.in) .split-char{animation:none;animation-delay:0}
+html.no-anim .split-word,html.no-anim .split-char{animation:none}
+@keyframes flickerChar{
+  0%{color:inherit;opacity:1}
+  1%{color:var(--arc);opacity:1}
+  15%{opacity:.2}
+  30%{opacity:.8}
+  40%{color:var(--arc);opacity:1}
+  55%{opacity:1}
+  70%{color:inherit;opacity:.7}
+  85%{opacity:1}
+  to{opacity:1}
+}
+@keyframes flickerWord{
+  0%{opacity:1}20%{opacity:.3}35%{opacity:.85}55%{opacity:.2}70%{opacity:1}to{opacity:1}
+}
 /* Inside one pinned panel the rhythm has to answer to the height available,
    not the width — vh keeps statement, lede and points on one screen instead of
    pushing the last row under the fold on a short window. */
@@ -878,7 +940,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
           <div class="pov">
             <div class="pov-head reveal" style="--d:0s">
             <div class="eyebrow pov-eyebrow">Our point of view</div>
-            <h2 class="pov-title" id="pov-title">The future belongs to enterprises that operationalize AI</h2>
+            <h2 class="pov-title" id="pov-title" data-split style="--flicker-in:.25s">The future belongs to enterprises that operationalize AI</h2>
             </div>
             <p class="pov-lede reveal" style="--d:.15s">Market leaders aren't winning because they have access to better AI. They're winning because they've embedded it into the way their organizations operate.</p>
 
@@ -973,7 +1035,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
         <div class="gcc-copy">
           <div class="gcc-head">
             <div class="eyebrow">GCC Capability</div>
-            <h2 class="title title-sb" id="gcc-title">BCT's AI-powered <span class="hl">GCC capability</span></h2>
+            <h2 class="title title-sb" id="gcc-title" data-split style="--flicker-in:.25s">BCT's AI-powered <span class="hl">GCC capability</span></h2>
           </div>
           <p class="lede">BCT embeds AI into your Global Capability Center from day one. Powered by AigeniX&trade;, our agentic AI platform automates the domains alongside &mdash; accelerating operations, agility, and time-to-market.</p>
         </div>
@@ -1262,7 +1324,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.3333 19L20 12L13.3333 5M20 12L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </article>
-      <article class="blog reveal" style="--tint:#F0E9FF;--d:.15s">
+      <article class="blog reveal" style="--tint:#F4F4F4;--d:.15s">
         <span class="blog-art" aria-hidden="true"><img src="img/blog-data.jpg" alt="Glass columns carrying lines of model code"></span>
         <div>
           <h3>AI Without a Data Strategy</h3>
@@ -1272,7 +1334,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--blue-500);outline-o
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13.3333 19L20 12L13.3333 5M20 12L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </article>
-      <article class="blog reveal" style="--tint:#D4FFF7;--d:.3s">
+      <article class="blog reveal" style="--tint:#D6F2FF;--d:.3s">
         <span class="blog-art" aria-hidden="true"><img src="img/blog-maturity.jpg" alt="A scatter of iridescent glass discs"></span>
         <div>
           <h3>Why AI Maturity Matters</h3>
@@ -1620,6 +1682,65 @@ document.querySelectorAll('.pt-fig svg [data-draw]').forEach(function(el){
   var L = el.getTotalLength();
   if (L) el.style.setProperty('--len', L.toFixed(1));
 });
+
+/* ---------- split the flicker headings into words and characters ----------
+   Has to run before anything can add .in, which is why it sits above the
+   observer. One string in, one aria-label out: the spans it builds are all
+   aria-hidden, so nothing here reaches assistive tech as fifty separate letters.
+
+   It walks the node tree rather than rewriting innerHTML from textContent,
+   because these headings are not plain text — the GCC one carries an .hl run for
+   the accent colour, and flattening it would take the colour with it. Element
+   children are kept and recursed into; only text nodes are cut up.
+
+   --char counts across the whole heading, --word restarts per word: that pairing
+   is what gives the sweep one continuous beat and one slower one underneath. */
+(function(){
+  var heads = document.querySelectorAll('[data-split]');
+  if (!heads.length) return;
+
+  function split(root){
+    var words = 0, chars = 0;
+    (function walk(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if (n.nodeType === 1){                       // keep .hl and friends
+          n.setAttribute('aria-hidden', 'true');
+          walk(n);
+          return;
+        }
+        if (n.nodeType !== 3 || !n.nodeValue.trim()) return;
+        var frag = document.createDocumentFragment();
+        // the capturing split keeps the whitespace runs, so words stay separate
+        // text nodes and the line breaks exactly where it did before
+        n.nodeValue.split(/(\s+)/).forEach(function(part){
+          if (!part) return;
+          if (!part.trim()){ frag.appendChild(document.createTextNode(part)); return }
+          var w = document.createElement('span');
+          w.className = 'split-word';
+          w.setAttribute('aria-hidden', 'true');
+          w.style.setProperty('--word', ++words);
+          for (var i = 0; i < part.length; i++){
+            var c = document.createElement('span');
+            c.className = 'split-char';
+            c.setAttribute('aria-hidden', 'true');
+            c.style.setProperty('--char', ++chars);
+            c.textContent = part[i];
+            w.appendChild(c);
+          }
+          frag.appendChild(w);
+        });
+        node.replaceChild(frag, n);
+      });
+    })(root);
+  }
+
+  [].forEach.call(heads, function(el){
+    var text = el.textContent.replace(/\s+/g, ' ').trim();
+    if (!text) return;
+    el.setAttribute('aria-label', text);
+    split(el);
+  });
+})();
 
 /* Slide in on first entry. Anything already on screen at load resolves on the
    observer's first callback, so the hero rises immediately rather than waiting
